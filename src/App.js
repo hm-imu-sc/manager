@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import './global.css';
+import React from 'react';
+import cssClasses from './App.module.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AppBrowser from './RootComponents/AppBrowser/AppBrowser.js';
+import Modal from './CommonComponents/Modal/Modal';
+import PST from './ProblemSolvingTrackerApp/ProblemSolvingTrackerApp.js'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route exact path="/" element={<AppBrowser />} />
+                <Route exact path="/problem_solving_tracker" element={<PST />} />
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
