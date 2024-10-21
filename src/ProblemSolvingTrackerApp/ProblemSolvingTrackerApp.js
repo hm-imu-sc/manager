@@ -12,7 +12,7 @@ const Tracker = () => {
             <button className={cssClasses.Loader} onClick={() => setIsModalVisible(true)}>Tag Manager</button>
 
             {isModalVisible ? 
-                <Modal renderingMode={modalModes.standard} title={TagManagerTitle} setIsVisible={setIsModalVisible}>
+                <Modal renderingMode={modalModes.medium} title={TagManagerTitle} setIsVisible={setIsModalVisible}>
                     <TagManager />
                 </Modal> 
             : null}

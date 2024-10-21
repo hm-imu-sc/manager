@@ -7,6 +7,7 @@ import DialogBox from "../DialogBox/DialogBox";
 import Modal, { modalModes, modalProps } from "../Modal/Modal";
 
 export const defaultProps = {
+    uniqueId: -1,
     inputRows: [],
     cancelButtonOnClick: defaultCallBack,
     cancelButtonText: 'Cancel',

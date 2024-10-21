@@ -69,46 +69,60 @@ const TagManager = () => {
     /**
      * Add a new tag
      */
-    const addTag = (event) => {
-        const action = async () => {
-            let tagNameField = document.querySelector("#newTagName");
-            let newTagName = tagNameField.value;
-
-            if (newTagName.length > 0) {
-                const response = await fetch(TagService.createTag, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({name: newTagName}),
-                });
-                
-                const r = await response.json();
-                
-                if (r.generalResponse.isSuccess) {
-                    setTagList([...tagList.map(t => ({...t})), {id: r.id, name: newTagName}]);
-                    tagNameField.value = "";
-                }
-                else {
-                    setModalState(updateProps(modalState, {
-                        modalProps: {
-                            renderingMode: modalModes.mini,
-                            title: "Failed !"
-                        },
-                        modalContent: (
-                            <DialogBox 
-                                content={r.generalResponse.message}
-                                cancelButtonText="Close" 
-                                cancelButtonOnClick={() => setIsModalVisible(false)} />
-                        )
-                    }));
-                    setIsModalVisible(true);
-                }
-            }
-        }
-        action();
+    const addTag = () => {
+        setModalState({
+            modalProps: {
+                renderingMode: modalModes.mini,
+                title: 'Add tag:'
+            },
+            modalContent: (
+                <InputBox 
+                    inputRows={
+                        [
+                            [
+                                {
+                                    type: inputTypes.text,
+                                    label: 'Tag name',
+                                    value: '',
+                                }
+                            ]
+                        ]
+                    } 
+                    cancelButtonOnClick={() => setIsModalVisible(false)}
+                    saveButtonOnClick={async (uniqueId, data, actionSet) => {
+                        try {
+                            const newTagName = data[0][0].value;
+                            if (newTagName.length > 0) {
+                                const response = await fetch(TagService.createTag, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({name: newTagName}),
+                                });
+                                
+                                const r = await response.json();
+                                
+                                if (r.generalResponse.isSuccess) {
+                                    setTagList([...tagList.map(t => ({...t})), {id: r.id, name: newTagName}]);
+                                    setIsModalVisible(false);
+                                }
+                                else {
+                                    actionSet.failedAction(r.generalResponse.message);
+                                }
+                            }
+                            else {
+                                actionSet.failedAction('Tag name cannot be empty.');
+                            }
+                        } catch (error) {
+                            actionSet.failedAction(error.message);
+                        }
+                    }} />
+            )
+        });
+        setIsModalVisible(true);
     }
-    
+
     useEffect(() => {
         const components = [];
         /**
@@ -189,7 +203,7 @@ const TagManager = () => {
             const editTag = () => {
                 setModalState({
                     modalProps: {
-                        renderingMode: modalModes.medium,
+                        renderingMode: modalModes.mini,
                         title: 'Edit tag:'
                     },
                     modalContent: (
@@ -209,20 +223,27 @@ const TagManager = () => {
                             cancelButtonOnClick={() => setIsModalVisible(false)}
                             saveButtonOnClick={async (uniqueId, data, actionSet) => {
                                 try {
-                                    const response = await (await fetch(TagService.updateTag, {
-                                        method: 'PUT',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                        },
-                                        body: JSON.stringify({tag: {id: tagList[i].id, name: data[0][0].value}}),
-                                    })).json();
+                                    const newTagName = data[0][0].value;
 
-                                    if (response.generalResponse.isSuccess) {
-                                        setTagList(tagList.map(t => t.id === uniqueId ? {id: t.id, name: data[0][0].value} : {...t}))
-                                        setIsModalVisible(false);
+                                    if (newTagName !== tagList[i].name && newTagName !== '') {
+                                        const response = await (await fetch(TagService.updateTag, {
+                                            method: 'PUT',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                            body: JSON.stringify({tag: {id: tagList[i].id, name: newTagName}}),
+                                        })).json();
+    
+                                        if (response.generalResponse.isSuccess) {
+                                            setTagList(tagList.map(t => t.id === uniqueId ? {id: t.id, name: newTagName} : {...t}))
+                                            setIsModalVisible(false);
+                                        }
+                                        else {
+                                            actionSet.failedAction(response.generalResponse.message);
+                                        }
                                     }
-                                    else {
-                                        actionSet.failedAction(response.generalResponse.message);
+                                    else if (newTagName === '') {
+                                        actionSet.failedAction('Tag name cannot be empty !!!');
                                     }
                                 } catch (error) {
                                     actionSet.failedAction(error.message);
@@ -246,8 +267,9 @@ const TagManager = () => {
                 {tagComponents}
             </div>      
             <div>
-                <input className={cssClasses.NewTagName} type="text" name="newTagName" id="newTagName" maxLength={20} />
-                <button className={cssClasses.AddTag} onClick={addTag}>Add</button>
+                <button className={cssClasses.AddTag} onClick={addTag}>
+                    <i className="fad fa-plus fa-xs" style={{"--fa-secondary-opacity": 0.7}}></i>
+                </button>
             </div> 
             {isModalVisible ?
                 <Modal data={tagList} renderingMode={modalState.modalProps.renderingMode} title={modalState.modalProps.title} setIsVisible={setIsModalVisible} >

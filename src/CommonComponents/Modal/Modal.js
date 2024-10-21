@@ -7,12 +7,12 @@ export const modalModes = {
         rootDiv: cssClasses.MiniModal,
         title: cssClasses.MiniModalTitle,
         closeButton: cssClasses.MiniModalCloseButton,
-        closeButtonText: 'X'
+        closeButtonText: (<i class="fad fa-times fa-flip-horizontal" style={{"--fa-secondary-opacity": 0.7}}></i>)
     },
     medium: {
         rootDiv: cssClasses.MediumModal,
         title: cssClasses.MediumModalTitle,
-        closeButton: '',
+        closeButton: cssClasses.MediumModalCloseButton,
         closeButtonText: 'Close'
     },
     standard: {
@@ -44,8 +44,10 @@ const Modal = (props) => {
     return (
         <div className={cssClasses.ModalBackground}>
             <div className={[cssClasses.ModalRootDiv, props.renderingMode.rootDiv].join(' ')}>
-                <h1 className={[cssClasses.Title, props.renderingMode.title].join(' ')}>{props.title}</h1>
-                <button className={[cssClasses.CloseButton, props.renderingMode.closeButton].join(' ')} onClick={() => props.setIsVisible(false)}>{props.renderingMode.closeButtonText}</button>
+                <div className={cssClasses.Header}>
+                    <div className={[cssClasses.Title, props.renderingMode.title].join(' ')}>{props.title}</div>
+                    <button className={[cssClasses.CloseButton, props.renderingMode.closeButton].join(' ')} onClick={() => props.setIsVisible(false)}>{props.renderingMode.closeButtonText}</button>
+                </div>
                 <hr className={cssClasses.Devider} />
                 {props.children}
             </div>
