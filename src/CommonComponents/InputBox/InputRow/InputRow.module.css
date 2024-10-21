@@ -1,0 +1,32 @@
+.InputRow {
+    width: 100%;
+    display: flex;
+    column-gap: 10px;
+}
+
+.InputItem {
+    flex: 1;
+    text-align: left;
+}
+
+.Input {
+    width: 100%;
+    border: 1px solid lightblue;
+    border-radius: 5px;
+    color: lightblue;
+    background-color: transparent;
+    padding: 5px 10px;
+    font-family: "Consolas";
+    font-size: 15px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    display: block;
+}
+
+.Input:focus {
+    outline: 2px solid rgba(173, 216, 230, 0.555);
+}
+
+.InputLabel {
+    margin-left: 5px;
+}

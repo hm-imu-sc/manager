@@ -8,7 +8,7 @@
     color: lightblue;
     background-color: transparent;
     padding: 10px 30px;
-    margin-top: 10px;
+    margin-top: 30px;
     font-weight: bold;
     font-family: "Consolas";
     font-size: 20px;
@@ -16,7 +16,7 @@
 }
 
 .Loader:hover {
-    border-color: rgba(173, 216, 230, 0.822);;
+    border-color: rgba(173, 216, 230, 0.822);
     background-color: rgba(173, 216, 230, 0.822);
     color: #282c34;
 }

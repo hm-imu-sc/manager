@@ -11,10 +11,12 @@
 }
 
 .ModalRootDiv {
-    height: 700px;
-    width: 1100px;
+    /* height: 700px;*/
+    /* min-height: 300px; */
+    width: 1100px; 
     border-radius: 10px;
     padding: 15px;
+    padding-bottom: 25px;
     background-color: #282c34;
     margin: auto;
     position: fixed;
@@ -23,6 +25,7 @@
     left: 0;
     right: 0;
     position: relative;
+    overflow: auto;
 }
 
 .CloseButton {
@@ -58,3 +61,44 @@
     margin-top: 10px;
     user-select: none;
 }
+
+.MiniModal {
+    margin-top: 13%;
+    width: 400px;
+}
+
+.MiniModalCloseButton {
+    border: 1px solid lightblue;
+    border-radius: 5px;
+    color: lightblue;
+    background-color: transparent;
+    padding: 3px 10px;
+    font-weight: bold;
+    font-family: "Consolas";
+    font-size: 14px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;  
+    right: 10px;
+}
+
+.MiniModalTitle {
+    margin-top: 0;
+    margin-bottom: 7px;
+    user-select: none;
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+}
+.MediumModal {
+    margin-top: 8%;
+    width: 700px;
+}
+.MediumModalTitle {
+    text-align: left;
+}
+
+.LargeModal {
+    width: 1500px;
+}
+

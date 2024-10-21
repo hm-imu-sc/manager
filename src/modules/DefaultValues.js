@@ -1,0 +1,1 @@
+export const defaultCallBack = () => console.log("Not defined !!!")

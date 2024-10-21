@@ -1,0 +1,59 @@
+
+.Tag {
+    position: relative;
+    text-align: center;
+    border: 1px solid lightblue;
+    border-radius: 5px;
+    padding: 5px 15px;
+    user-select: none;
+    cursor: pointer;
+    font-family: "Consolas";
+    font-size: 14px;
+    min-width: 100px;
+}
+
+.Button {
+    border: 1px solid lightblue;
+    border-radius: 4px;
+    color: lightblue;
+    background-color: transparent;
+    font-weight: bold;
+    font-family: "Consolas";
+    font-size: 12px;
+    cursor: pointer;
+
+}
+
+.Button:hover {
+    border-color: rgba(173, 216, 230, 0.822);;
+    background-color: rgba(173, 216, 230, 0.822);
+    color: #282c34;
+}
+
+.EditButton {
+}
+
+.DeleteButton {
+}
+
+.ActionDiv {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 5px;
+    
+    background-color: #282c34;
+    border-radius: 5px;
+
+    height: 100%;
+}
+
+.Hide {
+    display: none;
+}
