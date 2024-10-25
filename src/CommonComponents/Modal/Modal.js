@@ -1,13 +1,14 @@
 import React from "react";
 import cssClasses from "./Modal.module.css";
 import { setDefaultProps } from "../../modules/Helpers";  
+import FAIcon from "../FAIcon/FAIcon";
 
 export const modalModes = {
     mini: {
         rootDiv: cssClasses.MiniModal,
         title: cssClasses.MiniModalTitle,
         closeButton: cssClasses.MiniModalCloseButton,
-        closeButtonText: (<i class="fad fa-times fa-flip-horizontal" style={{"--fa-secondary-opacity": 0.7}}></i>)
+        closeButtonText: (<FAIcon iconClasses={['fad', 'fa-times', 'fa-flip-horizontal', cssClasses.MiniModalCloseButtonIcon]} />)
     },
     medium: {
         rootDiv: cssClasses.MediumModal,

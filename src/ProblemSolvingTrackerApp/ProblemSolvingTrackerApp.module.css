@@ -2,13 +2,21 @@
     text-align: center;
 }
 
+.LoaderDiv {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: auto;
+    margin-top: 30px;
+    row-gap: 10px;
+}
+
 .Loader {
     border: 2px solid lightblue;
     border-radius: 5px;
     color: lightblue;
     background-color: transparent;
     padding: 10px 30px;
-    margin-top: 30px;
     font-weight: bold;
     font-family: "Consolas";
     font-size: 20px;

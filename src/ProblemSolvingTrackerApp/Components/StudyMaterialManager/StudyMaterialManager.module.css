@@ -1,4 +1,4 @@
-.TagList {
+.StudyMaterialList {
     display: flex; 
     flex-wrap: wrap;
     justify-content: center; 
@@ -6,7 +6,7 @@
     margin-top: 20px;
 }   
 
-.NewTagName {
+.NewStudyMaterialName {
     border: 1px solid lightblue;
     border-radius: 5px;
     color: lightblue;
@@ -17,11 +17,11 @@
     font-size: 15px;
 }
 
-.NewTagName:focus {
+.NewStudyMaterialName:focus {
     outline: 2px solid rgba(173, 216, 230, 0.555);
 }
 
-.AddTag {
+.AddStudyMaterial {
     border: 1px solid lightblue;
     border-radius: 5px;
     color: lightblue;
@@ -33,17 +33,17 @@
     padding: 0;
 }
 
-.AddTagIcon {
+.AddStudyMaterialIcon {
     padding: 9px 20px 7px;
     --fa-secondary-opacity: 0.7;
 }
 
-.AddTag:hover {
+.AddStudyMaterial:hover {
     border-color: rgba(173, 216, 230, 0.822);
     background-color: rgba(173, 216, 230, 0.822);
     color: #282c34;
 }
 
-.AddTag:focus {
+.AddStudyMaterial:focus {
     outline: 2px solid rgba(173, 216, 230, 0.555);
 }

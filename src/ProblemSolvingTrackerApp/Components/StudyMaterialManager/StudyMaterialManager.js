@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
-import Tag from "./Tag/Tag";
-import cssClasses from "./TagManager.module.css";
-import Modal, { modalModes, modalProps } from "../../../CommonComponents/Modal/Modal";
-import DialogBox from "../../../CommonComponents/DialogBox/DialogBox";
+import cssClasses from "./StudyMaterialManager.module.css";
+import { modalProps } from "../../../CommonComponents/Modal/Modal";
+import { StudyMaterialService } from "../../../modules/ServiceUrls";
 import { updateProps } from "../../../modules/Helpers";
-import { TagService } from "../../../modules/ServiceUrls";
+import Modal, { modalModes } from "../../../CommonComponents/Modal/Modal";
+import DialogBox from "../../../CommonComponents/DialogBox/DialogBox";
 import InputBox from "../../../CommonComponents/InputBox/InputBox";
 import { inputTypes } from "../../../CommonComponents/InputBox/InputRow/InputRow";
 import FAIcon from "../../../CommonComponents/FAIcon/FAIcon";
+import StudyMaterial from "./StudyMaterial/StudyMaterial";
 
-export const TagManagerTitle = "Manage Tags";
+export const StudyMaterialManagerTitle = 'Manage Study Materials';
 
-const TagManager = () => {
+const StudyMaterialManager = () => {
     /**
      * define states
      */
-    const [tagList, setTagList] = useState([]);
-    const [tagComponents, setTagComponents] = useState([]);
+    const [studyMaterialList, setStudyMaterialList] = useState([]);
+    const [studyMaterialComponents, setStudyMaterialComponents] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalState, setModalState] = useState({
         modalProps: modalProps,
@@ -24,14 +25,14 @@ const TagManager = () => {
     });
 
     /**
-    * Intial loading of all tags
+    * Intial loading of all study materials
     */
     useEffect(() => {
         const action = async () => {
             try {
-                const response = await (await fetch(TagService.getAllTags)).json();
+                const response = await (await fetch(StudyMaterialService.getAllStudyMaterials)).json();
                 if (response.generalResponse.isSuccess) {
-                    setTagList(response.tags);
+                    setStudyMaterialList(response.studyMaterials);
                 }
                 else {
                     setModalState(updateProps(modalState, {
@@ -68,13 +69,13 @@ const TagManager = () => {
     }, []);
 
     /**
-     * Add a new tag
+     * Add a new study material
      */
-    const addTag = () => {
+    const addStudyMaterial = () => {
         setModalState({
             modalProps: {
                 renderingMode: modalModes.mini,
-                title: 'Add tag:'
+                title: 'Add study material:'
             },
             modalContent: (
                 <InputBox 
@@ -83,7 +84,14 @@ const TagManager = () => {
                             [
                                 {
                                     type: inputTypes.text,
-                                    label: 'Tag name',
+                                    label: 'Title',
+                                    value: '',
+                                }
+                            ],
+                            [
+                                {
+                                    type: inputTypes.text,
+                                    label: 'URL',
                                     value: '',
                                 }
                             ]
@@ -92,20 +100,21 @@ const TagManager = () => {
                     cancelButtonOnClick={() => setIsModalVisible(false)}
                     saveButtonOnClick={async (uniqueId, data, actionSet) => {
                         try {
-                            const newTagName = data[0][0].value;
-                            if (newTagName.length > 0) {
-                                const response = await fetch(TagService.createTag, {
+                            const newTitle = data[0][0].value;
+                            const newURL = data[1][0].value;
+                            if (newTitle.length > 0 && newURL.length > 0) {
+                                const response = await fetch(StudyMaterialService.createStudyMaterial, {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',
                                     },
-                                    body: JSON.stringify({name: newTagName}),
+                                    body: JSON.stringify({study_material: {id:-1, title: newTitle, url: newURL}}),
                                 });
                                 
                                 const r = await response.json();
                                 
                                 if (r.generalResponse.isSuccess) {
-                                    setTagList([...tagList.map(t => ({...t})), {id: r.id, name: newTagName}]);
+                                    setStudyMaterialList([...studyMaterialList.map(sm => ({...sm})), {id: r.id, title: newTitle, url: newURL}]);
                                     setIsModalVisible(false);
                                 }
                                 else {
@@ -113,7 +122,7 @@ const TagManager = () => {
                                 }
                             }
                             else {
-                                actionSet.failedAction('Tag name cannot be empty.');
+                                actionSet.failedAction('Title and URL cannot be empty.');
                             }
                         } catch (error) {
                             actionSet.failedAction(error.message);
@@ -125,15 +134,20 @@ const TagManager = () => {
     }
 
     /**
-     * Create tag components
+     * Create study material components
      */
     useEffect(() => {
         const components = [];
-        for (let i = 0; i < tagList.length; i++) {
+
+        if (studyMaterialList === undefined) {
+            return;
+        }
+
+        for (let i = 0; i < studyMaterialList.length; i++) {
             /**
-             * Delete a tag
+             * Delete a study material
              */
-            const deleteTag = () => {
+            const deleteStudyMaterial = () => {
                 setModalState(updateProps(modalState, {
                     modalProps: {
                         renderingMode: modalModes.mini,
@@ -142,13 +156,13 @@ const TagManager = () => {
                     modalContent: (
                         <DialogBox 
                             mode="confirmation"
-                            content={`Confirm deletion of tag '${tagList[i].name}' ?`} 
+                            content={`Confirm deletion of study material '${studyMaterialList[i].title}' ?`} 
                             cancelButtonText="Close"
                             cancelButtonOnClick={() => setIsModalVisible(false)} 
                             confirmButtonOnClick={
                                 async () => {
                                     try {
-                                        const response = await (await fetch(`${TagService.deleteTag}/${tagList[i].id}`, {
+                                        const response = await (await fetch(`${StudyMaterialService.deleteStudyMaterial}/${studyMaterialList[i].id}`, {
                                             method: 'DELETE',
                                             headers: {
                                             'Content-Type': 'application/json',
@@ -157,9 +171,9 @@ const TagManager = () => {
                                         setIsModalVisible(false);
                                         
                                         if (response.generalResponse.isSuccess) {
-                                            let newTagList = [...tagList];
-                                            newTagList.splice(i, 1);
-                                            setTagList(newTagList);
+                                            let newStudyMaterialList = [...studyMaterialList];
+                                            newStudyMaterialList.splice(i, 1);
+                                            setStudyMaterialList(newStudyMaterialList);
                                         }
                                         else {
                                             setModalState(updateProps(modalState, {
@@ -184,7 +198,7 @@ const TagManager = () => {
                                             },
                                             modalContent: (
                                                 <DialogBox 
-                                                    content="Could not delete tag !!!"
+                                                    content="Could not delete !!!"
                                                     cancelButtonText="Close"
                                                     cancelButtonOnClick={() => setIsModalVisible(false)} />
                                             )
@@ -199,24 +213,31 @@ const TagManager = () => {
             }
 
             /**
-             * Edit a tag
+             * Edit a study material
              */
-            const editTag = () => {
+            const editStudyMaterial = () => {
                 setModalState({
                     modalProps: {
                         renderingMode: modalModes.mini,
-                        title: 'Edit tag:'
+                        title: 'Edit study material:'
                     },
                     modalContent: (
                         <InputBox 
-                            uniqueId={tagList[i].id}
+                            uniqueId={studyMaterialList[i].id}
                             inputRows={
                                 [
                                     [
                                         {
                                             type: inputTypes.text,
-                                            label: 'Name',
-                                            value: tagList[i].name,
+                                            label: 'Title',
+                                            value: studyMaterialList[i].title,
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            type: inputTypes.text,
+                                            label: 'URL',
+                                            value: studyMaterialList[i].url,
                                         }
                                     ]
                                 ]
@@ -224,27 +245,28 @@ const TagManager = () => {
                             cancelButtonOnClick={() => setIsModalVisible(false)}
                             saveButtonOnClick={async (uniqueId, data, actionSet) => {
                                 try {
-                                    const newTagName = data[0][0].value;
+                                    const newTitle = data[0][0].value;
+                                    const newUrl = data[1][0].value;
 
-                                    if (newTagName !== tagList[i].name && newTagName !== '') {
-                                        const response = await (await fetch(TagService.updateTag, {
+                                    if ((newTitle !== studyMaterialList[i].title && newTitle !== '') || (newUrl !== studyMaterialList[i].url && newUrl !== '')) {
+                                        const response = await (await fetch(StudyMaterialService.updateStudyMaterial, {
                                             method: 'PUT',
                                             headers: {
                                                 'Content-Type': 'application/json',
                                             },
-                                            body: JSON.stringify({tag: {id: tagList[i].id, name: newTagName}}),
+                                            body: JSON.stringify({study_material: {id: studyMaterialList[i].id, title: newTitle, url: newUrl}}),
                                         })).json();
     
                                         if (response.generalResponse.isSuccess) {
-                                            setTagList(tagList.map(t => t.id === uniqueId ? {id: t.id, name: newTagName} : {...t}))
+                                            setStudyMaterialList(studyMaterialList.map(sm => sm.id === uniqueId ? {id: sm.id, title: newTitle, url: newUrl} : {...sm}))
                                             setIsModalVisible(false);
                                         }
                                         else {
                                             actionSet.failedAction(response.generalResponse.message);
                                         }
                                     }
-                                    else if (newTagName === '') {
-                                        actionSet.failedAction('Tag name cannot be empty !!!');
+                                    else if (newTitle === '' || newUrl === '') {
+                                        actionSet.failedAction('Title and URL cannot be empty !!!');
                                     }
                                 } catch (error) {
                                     actionSet.failedAction(error.message);
@@ -256,24 +278,29 @@ const TagManager = () => {
             }
 
             components.push((
-                <Tag key={i} name={tagList[i].name} editButtonOnClick={editTag} deleteButtonOnClick={deleteTag} />
+                <StudyMaterial 
+                    key={i} 
+                    url={studyMaterialList[i].url}
+                    title={studyMaterialList[i].title} 
+                    editButtonOnClick={editStudyMaterial} 
+                    deleteButtonOnClick={deleteStudyMaterial} />
             ));
         }
-        setTagComponents(components);
-    }, [tagList]);
+        setStudyMaterialComponents(components);
+    }, [studyMaterialList]);
 
     return (
         <React.Fragment>
-            <div className={cssClasses.TagList}>
-                {tagComponents}
+            <div className={cssClasses.StudyMaterialList}>
+                {studyMaterialComponents}
             </div>      
             <div>
-                <button className={cssClasses.AddTag} onClick={addTag}>
-                    <FAIcon iconClasses={['fad fa-plus fa-xs', cssClasses.AddTagIcon]} />
+                <button className={cssClasses.AddStudyMaterial} onClick={addStudyMaterial}>
+                    <FAIcon iconClasses={['fad fa-plus fa-xs', cssClasses.AddStudyMaterialIcon]} />
                 </button>
             </div> 
             {isModalVisible ?
-                <Modal data={tagList} renderingMode={modalState.modalProps.renderingMode} title={modalState.modalProps.title} setIsVisible={setIsModalVisible} >
+                <Modal data={studyMaterialList} renderingMode={modalState.modalProps.renderingMode} title={modalState.modalProps.title} setIsVisible={setIsModalVisible} >
                     {modalState.modalContent}
                 </Modal>
             : null}
@@ -281,4 +308,4 @@ const TagManager = () => {
     );
 }
 
-export default TagManager;
+export default StudyMaterialManager;

@@ -1,0 +1,52 @@
+.RootDiv {
+    border: 1px solid lightblue;
+    border-radius: 10px;
+    padding: 10px;
+    min-width: 200px;
+    max-width: 300px;
+}
+
+.Divider {
+    margin-top: 10px;
+    border-color: lightblue;
+}
+
+.Title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.StudyMaterials, .Tags {
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: relative;
+}
+
+.RelativeButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.EditButton {
+    border: 1px solid lightblue;
+    border-radius: 4px;
+    color: lightblue;
+    background-color: transparent;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 6px 8px;
+}
+
+.EditButton:hover {
+    border-color: rgba(173, 216, 230, 0.822);;
+    background-color: rgba(173, 216, 230, 0.822);
+    color: #282c34;
+}
+
+.EditButtonIcon {
+
+}

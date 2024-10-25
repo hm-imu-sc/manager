@@ -60,7 +60,7 @@
 
 .Title {
     user-select: none;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
 }
 
@@ -73,7 +73,6 @@
     border-radius: 5px;
     color: lightblue;
     background-color: transparent;
-    padding: 4px 15px 3px;
     font-weight: bold;
     font-family: "Consolas";
     font-size: 14px;
@@ -81,6 +80,11 @@
     position: absolute;
     top: 10px;  
     right: 10px;
+    padding: 0;
+}
+.MiniModalCloseButtonIcon {
+    padding: 4px 15px 3px;
+    --fa-secondary-opacity: 0.7;
 }
 .MiniModalTitle {
     user-select: none;
