@@ -30,3 +30,40 @@
 .InputLabel {
     margin-left: 5px;
 }
+
+.OptionInput {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px 4px;
+}
+
+.Options {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.Option {
+    border: 1px solid lightblue;
+    border-radius: 5px;
+    padding: 1px 7px;
+    font-size: 10px;
+}
+
+.EditButton {
+    border: 1px solid lightblue;
+    border-radius: 5px;
+    color: lightblue;
+    background-color: transparent;
+    font-weight: bold;
+    font-size: 10px;
+    cursor: pointer;
+    padding: 3px 8px;
+}
+
+.EditButton:hover {
+    border-color: rgba(173, 216, 230, 0.822);;
+    background-color: rgba(173, 216, 230, 0.822);
+    color: #08344e;
+}

@@ -11,17 +11,37 @@
     border-color: lightblue;
 }
 
-.Title {
+.TitleDiv {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.Title {
+    font-size: 25px;
+    text-align: left;
 }
 
 .StudyMaterials, .Tags {
     display: flex;
     justify-content: left;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 4px;
     position: relative;
+}
+
+.StudyMaterials > div {
+    border: 1px solid lightblue;
+    border-radius: 5px;
+    padding: 1px 5px 2px;
+    font-size: 13px;
+}
+
+.Tags > div {
+    border: 1px solid lightblue;
+    border-radius: 5px;
+    padding: 1px 3px 2px;
+    font-size: 10px;
 }
 
 .RelativeButton {
@@ -32,7 +52,7 @@
 
 .EditButton {
     border: 1px solid lightblue;
-    border-radius: 4px;
+    border-radius: 10px;
     color: lightblue;
     background-color: transparent;
     font-weight: bold;
@@ -44,7 +64,7 @@
 .EditButton:hover {
     border-color: rgba(173, 216, 230, 0.822);;
     background-color: rgba(173, 216, 230, 0.822);
-    color: #282c34;
+    color: #08344e;
 }
 
 .EditButtonIcon {

@@ -8,7 +8,7 @@ const TopicManager = () => {
     return (
         // <h1>This is the topic manager !!!</h1>
         <div className={cssClasses.TopicList}>
-            <Topic />
+            <Topic openEditor={true} />
             <Topic />
             <Topic />
             <Topic />

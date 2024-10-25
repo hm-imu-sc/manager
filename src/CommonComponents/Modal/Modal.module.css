@@ -29,6 +29,7 @@
 .Header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .CloseButton {
@@ -77,9 +78,6 @@
     font-family: "Consolas";
     font-size: 14px;
     cursor: pointer;
-    position: absolute;
-    top: 10px;  
-    right: 10px;
     padding: 0;
 }
 .MiniModalCloseButtonIcon {

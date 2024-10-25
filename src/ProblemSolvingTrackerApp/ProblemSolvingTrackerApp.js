@@ -28,7 +28,7 @@ const Tracker = () => {
         <div className={cssClasses.Root}>
             <div className={cssClasses.LoaderDiv}>
                 <button className={cssClasses.Loader} onClick={() => modalLauncher(modalModes.medium, TagManagerTitle, (<TagManager />))}>Tag Manager</button>
-                <button className={cssClasses.Loader} onClick={() => modalLauncher(modalModes.medium, TopicManagerTitle, (<TopicManager />))}>Topic Manager</button>
+                <button className={cssClasses.Loader} onClick={() => modalLauncher(modalModes.standard, TopicManagerTitle, (<TopicManager />))}>Topic Manager</button>
                 <button className={cssClasses.Loader} onClick={() => modalLauncher(modalModes.medium, StudyMaterialManagerTitle, (<StudyMaterialManager />))}>Study Material Manager</button>
             </div>
 
