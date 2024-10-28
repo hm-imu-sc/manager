@@ -48,8 +48,10 @@ const InputRow = (props) => {
                                     title: title
                                 },
                                 modalContent: (
-                                    <OptionInput options={options} cancelButtonOnClick={() => setIsModalVisible(false)} saveButtonOnClick={updatedOptions => {
-                                        setInputItems(inputItems.map((v, i) => i === idx ? {type: v.type, label: v.label, options: updatedOptions} : {...v}));
+                                    <OptionInput key={idx} options={options} cancelButtonOnClick={() => setIsModalVisible(false)} saveButtonOnClick={updatedOptions => {
+                                        const modifiedInputItems = inputItems.map((v, i) => i === idx ? {type: v.type, label: v.label, options: updatedOptions} : {...v});
+                                        setInputItems(modifiedInputItems);
+                                        props.onChangeValue(props.rowIndex, idx, updatedOptions);
                                         setIsModalVisible(false);
                                     }} />
                                 )
@@ -61,10 +63,10 @@ const InputRow = (props) => {
                         
                         if (inputItem.type === inputTypes.optionInput) {
                             inputComponent = (
-                                <div className={[cssClasses.Input, cssClasses.OptionInput].join(" ")}>
+                                <div key={idx} className={[cssClasses.Input, cssClasses.OptionInput].join(" ")}>
                                     <div className={cssClasses.Options}>
                                         {
-                                            inputItem.options.map(o => o.isSelected ? (<div className={cssClasses.Option}>{o.name}</div>) : null)
+                                            inputItem.options.map((o, iidx) => o.isSelected ? (<div key={iidx} className={cssClasses.Option}>{o.name}</div>) : null)
                                         }
                                     </div>
                                     <button className={cssClasses.EditButton} onClick={() => openOptions(inputItem.options, `Select ${inputItem.label}:`)}>
@@ -74,10 +76,10 @@ const InputRow = (props) => {
                             );
                         }
                         else if (inputItem.type === inputTypes.textarea) {
-                            inputComponent = (<textarea id={inputId} className={cssClasses.Input} rows="2" value={inputItem.value} onChange={onValueChange}></textarea>);
+                            inputComponent = (<textarea key={idx} id={inputId} className={cssClasses.Input} rows="2" value={inputItem.value} onChange={onValueChange}></textarea>);
                         }
                         else {
-                            inputComponent = (<input id={inputId} className={cssClasses.Input} type={inputItem.type} value={inputItem.value} onChange={onValueChange} />);
+                            inputComponent = (<input key={idx} id={inputId} className={cssClasses.Input} type={inputItem.type} value={inputItem.value} onChange={onValueChange} />);
                         }
 
                         return (

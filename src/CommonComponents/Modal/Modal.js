@@ -8,7 +8,7 @@ export const modalModes = {
         rootDiv: cssClasses.MiniModal,
         title: cssClasses.MiniModalTitle,
         closeButton: cssClasses.MiniModalCloseButton,
-        closeButtonText: (<FAIcon iconClasses={['fad', 'fa-times', 'fa-flip-horizontal', cssClasses.MiniModalCloseButtonIcon]} />)
+        closeButtonText: (<FAIcon iconClasses={['fas', 'fa-times', cssClasses.MiniModalCloseButtonIcon]} />)
     },
     medium: {
         rootDiv: cssClasses.MediumModal,

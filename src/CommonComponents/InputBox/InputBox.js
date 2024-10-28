@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import cssClasses from './InputBox.module.css';
-import InputRow from "./InputRow/InputRow";
+import InputRow, { inputTypes } from "./InputRow/InputRow";
 import { setDefaultProps } from "../../modules/Helpers";
 import { defaultCallBack } from "../../modules/DefaultValues";
 import DialogBox from "../DialogBox/DialogBox";
@@ -37,7 +37,12 @@ const InputBox = (props) => {
                                 inputItems={inputItems}
                                 onChangeValue={(row, column, v) => {
                                     const modifiedValue = data.map(d => d.map(dd => ({...dd})));
-                                    modifiedValue[row][column].value = v; 
+                                    if (modifiedValue[row][column].type === inputTypes.optionInput) {
+                                        modifiedValue[row][column].options = v; 
+                                    }
+                                    else {
+                                        modifiedValue[row][column].value = v; 
+                                    }
                                     setData(modifiedValue);
                                 }} />
                         );
@@ -46,23 +51,25 @@ const InputBox = (props) => {
             </div>
             <div className={cssClasses.ActionDiv}>
                 <button className={cssClasses.Button} onClick={props.cancelButtonOnClick}>{props.cancelButtonText}</button>
-                <button className={cssClasses.Button} onClick={() => props.saveButtonOnClick(props.uniqueId, data, {failedAction: message => {
-                    setModalState({
-                        modalProps: {
-                            renderingMode: modalModes.mini,
-                            title: "Failed !"
-                        },
-                        modalContent: (
-                            <DialogBox 
-                                content={message}
-                                cancelButtonText="Close"
-                                cancelButtonOnClick={() => {
-                                    setIsModalVisible(false);
-                                }} />
-                        )
-                    })
-                    setIsModalVisible(true);
-                }})}>{props.saveButtonText}</button>
+                <button className={cssClasses.Button} onClick={() => {
+                    props.saveButtonOnClick(props.uniqueId, data, {failedAction: message => {
+                        setModalState({
+                            modalProps: {
+                                renderingMode: modalModes.mini,
+                                title: "Failed !"
+                            },
+                            modalContent: (
+                                <DialogBox 
+                                    content={message}
+                                    cancelButtonText="Close"
+                                    cancelButtonOnClick={() => {
+                                        setIsModalVisible(false);
+                                    }} />
+                            )
+                        })
+                        setIsModalVisible(true);
+                    }})
+                }}>{props.saveButtonText}</button>
             </div>
             {isModalVisible ?
                 <Modal renderingMode={modalState.modalProps.renderingMode} title={modalState.modalProps.title} setIsVisible={setIsModalVisible} >

@@ -34,3 +34,22 @@ export const setDefaultProps = (props, defaultProps) => {
 export const copy = object => JSON.parse(JSON.stringify(object));
 
 export const copyPrimitive2D = ar => ar.map(r => [...r]);
+
+export const isEqual = (x, y) => {
+    x = x.sort();
+    y = y.sort();
+
+    if (x.length !== y.length) {
+        return false;
+    }
+
+    const n = x.length;
+
+    for (let i = 0; i < n; i++) {
+        if (x[i] !== y[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}

@@ -269,7 +269,7 @@ const TagManager = () => {
             </div>      
             <div>
                 <button className={cssClasses.AddTag} onClick={addTag}>
-                    <FAIcon iconClasses={['fad fa-plus fa-xs', cssClasses.AddTagIcon]} />
+                    <FAIcon iconClasses={['fas fa-plus fa-xs', cssClasses.AddTagIcon]} />
                 </button>
             </div> 
             {isModalVisible ?

@@ -14,3 +14,10 @@ export const StudyMaterialService = {
     getAllStudyMaterials: `${endpoint}/get_all_study_materials`,
     updateStudyMaterial: `${endpoint}/update_study_material`
 }
+
+export const TopicService = {
+    deleteTopic: `${endpoint}/delete_topic`,
+    createTopic: `${endpoint}/create_topic`,
+    getAllTopics: `${endpoint}/get_all_topics`,
+    updateTopic: `${endpoint}/update_topic`
+}

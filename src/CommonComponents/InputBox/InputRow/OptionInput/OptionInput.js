@@ -12,8 +12,9 @@ const OptionInput = (props) => {
         <Fragment>
             <div className={cssClasses.RootDiv}>
                 {
-                    options.map(o => (
-                        <button 
+                    options.map((o, idx) => (
+                        <button
+                            key={idx} 
                             className={[cssClasses.Option, o.isSelected ? cssClasses.SelectedOption : ""].join(" ")}
                             onClick={() => toggleOption(o.id)}>
                             {o.name}
