@@ -1,16 +1,24 @@
 .RootDiv {
-    flex: 1 1 0px;
+    /* flex: 1 1 0px; */
     border: 1px solid lightblue;
     border-radius: 10px;
     padding: 10px;
     min-width: 200px;
     max-width: 300px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.Dashed {
+    border-style: dashed!important;
 }
 
 .Divider {
     margin-top: 10px;
     border-color: lightblue;
+    width: 100%;
 }
 
 .TitleDiv {
@@ -45,6 +53,17 @@
     border-radius: 5px;
     padding: 1px 3px 2px;
     font-size: 10px;
+}
+
+.StudyMaterial {
+    user-select: none;
+    cursor: pointer;
+}
+
+.StudyMaterial:hover {
+    border-color: rgba(173, 216, 230, 0.822);
+    background-color: rgba(173, 216, 230, 0.822);
+    color: #08344e;
 }
 
 .RelativeButton {

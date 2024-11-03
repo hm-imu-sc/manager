@@ -32,7 +32,7 @@ const StudyMaterialManager = () => {
             try {
                 const response = await (await fetch(StudyMaterialService.getAllStudyMaterials)).json();
                 if (response.generalResponse.isSuccess) {
-                    setStudyMaterialList(response.studyMaterials);
+                    setStudyMaterialList(response.studyMaterials.sort((t1, t2) => t1.title.localeCompare(t2.title)));
                 }
                 else {
                     setModalState(updateProps(modalState, {

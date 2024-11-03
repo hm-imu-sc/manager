@@ -16,12 +16,11 @@
     border: 1px solid lightblue;
     border-radius: 4px;
     color: lightblue;
-    background-color: transparent;
     font-weight: bold;
     font-family: "Consolas";
     font-size: 12px;
     cursor: pointer;
-
+    background-color: #282c34;
 }
 
 .Button:hover {
@@ -48,7 +47,7 @@
     align-items: center;
     column-gap: 5px;
     
-    background-color: #282c34;
+    background-color: #282c34b2;
     border-radius: 5px;
 
     height: 100%;

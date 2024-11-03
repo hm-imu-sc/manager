@@ -79,3 +79,21 @@
     column-gap: 10px; 
     margin-top: 10px;
 }   
+
+.Divider {
+    margin-top: 20px;
+    border-color: lightblue;
+}
+
+.SettingsButton {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    padding: 10px 15px;
+    font-size: 40px;
+}
+
+.SectionTitle {
+    font-size: 20px;
+    text-align: left;
+}   

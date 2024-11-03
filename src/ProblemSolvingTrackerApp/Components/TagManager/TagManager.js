@@ -31,7 +31,7 @@ const TagManager = () => {
             try {
                 const response = await (await fetch(TagService.getAllTags)).json();
                 if (response.generalResponse.isSuccess) {
-                    setTagList(response.tags);
+                    setTagList(response.tags.sort((t1, t2) => t1.name.localeCompare(t2.name)));
                 }
                 else {
                     setModalState(updateProps(modalState, {

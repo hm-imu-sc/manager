@@ -36,7 +36,7 @@ const Topic = (props) => {
             <div
                 onMouseEnter={() => setIsActive(true)}
                 onMouseLeave={() => setIsActive(false)}
-                className={cssClasses.RootDiv}>
+                className={[cssClasses.RootDiv, topicData.id === -1 ? cssClasses.Dashed : ''].join(" ")}>
                 <div className={[cssClasses.ActionDiv, isActive ? '' : cssClasses.Hide].join(' ')}>
                     <button 
                         className={cssClasses.EditButton}
@@ -46,26 +46,34 @@ const Topic = (props) => {
                     <button 
                         className={cssClasses.EditButton}
                         onClick={() => props.deleteButtonOnClick(topicData)}>
-                        <FAIcon iconClasses={["fad fa-eraser", cssClasses.EditButtonIcon]}/>
+                        <FAIcon iconClasses={["fad fa-trash-alt fa-sm", cssClasses.EditButtonIcon]}/>
                     </button>
                 </div>
                 <div className={cssClasses.TitleDiv}>
                     <div className={cssClasses.Title}>{topicData.name}</div>
                 </div>
-                <hr className={cssClasses.Divider} />
+                <hr className={[cssClasses.Divider, topicData.id === -1 ? cssClasses.Dashed : ''].join(" ")} />
                 <div className={cssClasses.StudyMaterials}>
                     {
+                        topicData.studyMaterials.length > 0 
+                        ?
                         topicData.studyMaterials.map((sm, idx) => (
-                            <div key={idx}>{ sm.title }</div>
+                            <div key={idx} className={cssClasses.StudyMaterial} onClick={() => window.open(sm.url, '_blank')}>{ sm.title }</div>
                         ))
+                        : 
+                        <div className={[cssClasses.Dashed].join(" ")}>Empty</div>
                     }
                 </div>
-                <hr className={cssClasses.Divider} />
+                <hr className={[cssClasses.Divider, topicData.id === -1 ? cssClasses.Dashed : ''].join(" ")} />
                 <div className={cssClasses.Tags}>
                     {
+                        topicData.tags.length > 0 
+                        ?
                         topicData.tags.map((t, idx) => (
                             <div key={idx}>{ t.name }</div>
                         ))
+                        :
+                        <div className={[cssClasses.Dashed].join(" ")}>Empty</div>
                     }
                 </div>
             </div>

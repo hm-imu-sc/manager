@@ -27,83 +27,55 @@ const TopicManager = () => {
     /**
     * Intial loading of all topics
     */
-    useEffect(() => {
-        const action = async () => {
-            try {
-                let response = await (await fetch(TagService.getAllTags)).json();
-                if (response.generalResponse.isSuccess) {
-                    setAllTags(response.tags);
-                }
+    const loadAllTopics = async () => {
+        try {
+            let response = await (await fetch(TagService.getAllTags)).json();
+            if (response.generalResponse.isSuccess) {
+                setAllTags(response.tags);
+            }
 
-                response = await (await fetch(StudyMaterialService.getAllStudyMaterials)).json();
-                if (response.generalResponse.isSuccess) {
-                    setAllStudyMaterials(response.studyMaterials);
-                }
+            response = await (await fetch(StudyMaterialService.getAllStudyMaterials)).json();
+            if (response.generalResponse.isSuccess) {
+                setAllStudyMaterials(response.studyMaterials);
+            }
 
-                response = await (await fetch(TopicService.getAllTopics)).json();
-                if (response.generalResponse.isSuccess) {
-                    setTopicList(response.topics);
-                    // setTopicList([
-                    //     {
-                    //         id: 1,
-                    //         name: "Topic 1",
-                    //         studyMaterials: [
-                    //             {
-                    //                 id: 10,
-                    //                 title: "Mat 1",
-                    //                 url: "#" 
-                    //             },
-                    //             {
-                    //                 id: 20,
-                    //                 title: "Mat 3",
-                    //                 url: "#"
-                    //             }
-                    //         ],
-                    //         tags: [
-                    //             {
-                    //                 id: 1,
-                    //                 name: "Tag 3",
-                    //             },
-                    //             {
-                    //                 id: 2,
-                    //                 name: "Tag 1",
-                    //             }
-                    //         ]
-                    //     }
-                    // ]);
-                }
-                else {
-                    setModalState(updateProps(modalState, {
-                        modalProps: {
-                            renderingMode: modalModes.mini,
-                            title: "Failed !"
-                        },
-                        modalContent: (
-                            <DialogBox 
-                                content={response.generalResponse.message} 
-                                cancelButtonText="Close"
-                                cancelButtonOnClick={() => setIsModalVisible(false)} />
-                        )
-                    }));
-                    setIsModalVisible(true);
-                }
-            } catch (error) {
+            response = await (await fetch(TopicService.getAllTopics)).json();
+            if (response.generalResponse.isSuccess) {
+                setTopicList(response.topics.sort((t1, t2) => t1.name.localeCompare(t2.name)));
+            }
+            else {
                 setModalState(updateProps(modalState, {
                     modalProps: {
                         renderingMode: modalModes.mini,
-                        title: "Error !"
+                        title: "Failed !"
                     },
                     modalContent: (
                         <DialogBox 
-                            content="Could not fetch data !!!"
+                            content={response.generalResponse.message} 
                             cancelButtonText="Close"
                             cancelButtonOnClick={() => setIsModalVisible(false)} />
                     )
                 }));
                 setIsModalVisible(true);
             }
+        } catch (error) {
+            setModalState(updateProps(modalState, {
+                modalProps: {
+                    renderingMode: modalModes.mini,
+                    title: "Error !"
+                },
+                modalContent: (
+                    <DialogBox 
+                        content="Could not fetch data !!!"
+                        cancelButtonText="Close"
+                        cancelButtonOnClick={() => setIsModalVisible(false)} />
+                )
+            }));
+            setIsModalVisible(true);
         }
-        action();
+    }
+    useEffect(() => {
+        loadAllTopics();
     }, []);
 
     /**
@@ -184,6 +156,9 @@ const TopicManager = () => {
                     confirmButtonOnClick={
                         async () => {
                             try {
+                                debugger;
+                                console.log("Deleting:");
+                                console.log(topic);
                                 const response = await (await fetch(`${TopicService.deleteTopic}/${topic.id}`, {
                                     method: 'DELETE',
                                     headers: {
@@ -193,15 +168,7 @@ const TopicManager = () => {
                                 setIsModalVisible(false);
                                 
                                 if (response.generalResponse.isSuccess) {
-                                    debugger;
-                                    let newTopicList = [];
-                                    for (const t of topicList) {
-                                        if (t.id !== topic.id) {
-                                            newTopicList.push({...t});
-                                        }
-                                    }
-                                    setTopicList([]);
-                                    // setTopicList(newTopicList);
+                                    setTopicList(topics => topics.filter(t => t.id !== topic.id));
                                 }
                                 else {
                                     setModalState(updateProps(modalState, {
@@ -252,7 +219,6 @@ const TopicManager = () => {
              */
             const saveTopic = async topic => {
                 try {
-                    debugger;
                     const isSuccess = true;
                     let message = '';
     
@@ -280,7 +246,7 @@ const TopicManager = () => {
 
             components.push((
                 <Topic 
-                    key={i} 
+                    key={topicList[i].id} 
                     renderingMode={topicList[i].id === -1 ? topicRendetingMode.insert : topicRendetingMode.display}
                     topicData={topicList[i]} 
                     allTags={allTags}

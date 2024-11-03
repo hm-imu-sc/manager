@@ -1,10 +1,11 @@
 .TopicList {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 15px;
     justify-content: center;
     margin-top: 20px;
     padding: 0 20px;
+    /* align-items: center; */
 }
 
 .AddTopic {
@@ -13,7 +14,7 @@
     color: lightblue;
     background-color: transparent;
     margin-top: 20px;
-    font-family: "Consolas";
+    font-family: "Consolas";    
     font-size: 20px;
     cursor: pointer;
     padding: 0;

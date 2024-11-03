@@ -13,7 +13,6 @@
 .ModalRootDiv {
     width: 1100px; 
     border-radius: 10px;
-    padding-bottom: 25px;
     background-color: #282c34;
     margin: auto;
     position: fixed;
@@ -22,9 +21,13 @@
     left: 0;
     right: 0;
     position: relative;
-    overflow: auto;
-    max-height: 700px;
     border: 15px solid #282c34;
+}
+
+.ContentDiv {
+    max-height: 750px;
+    overflow: auto;
+    padding: 0;
 }
 
 .Header {
@@ -57,6 +60,7 @@
 
 .Devider {
     margin-top: 10px;
+    margin-bottom: 15px;
     border-color: lightblue;
 }
 
@@ -69,6 +73,9 @@
 .MiniModal {
     margin-top: 13%;
     width: 400px;
+}
+.MiniModalContentDiv {
+    max-height: 300px;
 }
 .MiniModalCloseButton {
     border: 1px solid lightblue;
@@ -99,6 +106,9 @@
     margin-top: 8%;
     width: 700px;
 }
+.MediumModalContentDiv { 
+    max-height: 550px;
+}
 .MediumModalTitle {
     text-align: left;
     font-size: 20px;
@@ -106,5 +116,13 @@
 
 .LargeModal {
     width: 1500px;
+}
+.LargeModalContentDiv { 
+    max-height: 760px;
+}
+.ButtonSet {
+    display: flex;
+    justify-content: right;
+    column-gap: 10px;
 }
 
