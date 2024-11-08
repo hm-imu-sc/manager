@@ -1,5 +1,4 @@
-import { endpoint } from "./Settings";
-
+const endpoint = "https://localhost:7014";
 
 export const TagService = {
     deleteTag: `${endpoint}/delete_tag`,
@@ -20,4 +19,11 @@ export const TopicService = {
     createTopic: `${endpoint}/create_topic`,
     getAllTopics: `${endpoint}/get_all_topics`,
     updateTopic: `${endpoint}/update_topic`
+}
+
+export const CountService = {
+    deleteCount: `${endpoint}/delete_count`,
+    createCount: `${endpoint}/create_count`,
+    getAllCounts: `${endpoint}/get_all_counts`,
+    updateCounts: `${endpoint}/update_counts`
 }

@@ -4,7 +4,7 @@ import cssClasses from "./TopicManager.module.css";
 import Modal, { modalModes, modalProps } from "../../../CommonComponents/Modal/Modal";
 import DialogBox from "../../../CommonComponents/DialogBox/DialogBox";
 import { updateProps } from "../../../modules/Helpers";
-import { TopicService, TagService, StudyMaterialService } from "../../../modules/ServiceUrls";
+import { TopicService, TagService, StudyMaterialService } from "../../modules/ProblemSolvingTrackerServices";
 import FAIcon from "../../../CommonComponents/FAIcon/FAIcon";
 
 export const TopicManagerTitle = 'Manage Topics';

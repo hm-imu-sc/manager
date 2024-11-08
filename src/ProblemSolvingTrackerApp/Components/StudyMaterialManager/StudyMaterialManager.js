@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import cssClasses from "./StudyMaterialManager.module.css";
 import { modalProps } from "../../../CommonComponents/Modal/Modal";
-import { StudyMaterialService } from "../../../modules/ServiceUrls";
+import { StudyMaterialService } from "../../modules/ProblemSolvingTrackerServices";
 import { updateProps } from "../../../modules/Helpers";
 import Modal, { modalModes } from "../../../CommonComponents/Modal/Modal";
 import DialogBox from "../../../CommonComponents/DialogBox/DialogBox";
@@ -32,7 +32,7 @@ const StudyMaterialManager = () => {
             try {
                 const response = await (await fetch(StudyMaterialService.getAllStudyMaterials)).json();
                 if (response.generalResponse.isSuccess) {
-                    setStudyMaterialList(response.studyMaterials.sort((t1, t2) => t1.title.localeCompare(t2.title)));
+                    setStudyMaterialList(response.studyMaterials.sort((sm1, sm2) => sm1.title.localeCompare(sm2.title)));
                 }
                 else {
                     setModalState(updateProps(modalState, {

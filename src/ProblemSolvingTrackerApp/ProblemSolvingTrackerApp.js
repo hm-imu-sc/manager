@@ -6,10 +6,11 @@ import { updateProps } from "../modules/Helpers";
 import TopicManager, { TopicManagerTitle } from "./Components/TopicManager/TopicManager";
 import StudyMaterialManager, { StudyMaterialManagerTitle } from "./Components/StudyMaterialManager/StudyMaterialManager";
 import FAIcon from "../CommonComponents/FAIcon/FAIcon.js";
+import CounterManager from "./Components/CounterManager/CounterManager";
 
 const Tracker = () => {
     const [refreshCounter, setRefreshCounter] = useState(1);
-    const [isModalVisible, setIsModalVisible] = useState(true);
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalState, setModalState] = useState({
         modalProps: modalProps,
         modalContent: null
@@ -32,22 +33,20 @@ const Tracker = () => {
 
     return (
         <div className={cssClasses.Root}>
+
+            <CounterManager />
+
             <div className={cssClasses.LoaderDiv}>
-                {/* <button className={cssClasses.Loader} onClick={() => modalLauncher(modalModes.medium, TagManagerTitle, (<TagManager />))}>Tag Manager</button>
-                <button className={cssClasses.Loader} onClick={() => modalLauncher(modalModes.standard, TopicManagerTitle, (<TopicManager />))}>Topic Manager</button>
-                <button className={cssClasses.Loader} onClick={() => modalLauncher(modalModes.medium, StudyMaterialManagerTitle, (<StudyMaterialManager />))}>Study Material Manager</button> */}
                 <button className={[cssClasses.Loader, cssClasses.SettingsButton].join(" ")} onClick={() => setIsModalVisible(true)}>
                     <FAIcon iconClasses={["fad fa-cog"]} />
                 </button>
             </div>
-
             {isModalVisible ? 
                 <Modal 
                     key={refreshCounter} 
                     renderingMode={modalModes.large} 
                     title={"Settings"} setIsVisible={setIsModalVisible}
                     buttonSet={[{text: "Refresh", onClick: refreshModalContent}]}>
-                    {/* {modalState.modalContent} */}
                     <div className={cssClasses.SectionTitle}>Tags:</div>
                     <TagManager />
                     <hr className={cssClasses.Divider}/>

@@ -49,17 +49,6 @@ const Modal = (props) => {
     props = setDefaultProps(props, defaultProps);
     const modalReference = useRef(null);
 
-    // useEffect(() => {
-    //     if (modalReference) {
-    //         const { clientWidth, clientHeight } = modalReference.current;
-    //         // modalReference.current.style.top = `calc(50% - ${clientHeight / 2}px)`;
-    //         console.log("Height 2: ");
-    //         console.log(modalReference.current.clientHeight);
-    //         console.log(modalReference);
-    //     }
-
-    // }, [])
-
     return (
         <div className={cssClasses.ModalBackground}>
             <div ref={modalReference} className={[cssClasses.ModalRootDiv, props.renderingMode.rootDiv].join(' ')}>

@@ -4,10 +4,11 @@ import cssClasses from "./TagManager.module.css";
 import Modal, { modalModes, modalProps } from "../../../CommonComponents/Modal/Modal";
 import DialogBox from "../../../CommonComponents/DialogBox/DialogBox";
 import { updateProps } from "../../../modules/Helpers";
-import { TagService } from "../../../modules/ServiceUrls";
+import { TagService } from "../../modules/ProblemSolvingTrackerServices";
 import InputBox from "../../../CommonComponents/InputBox/InputBox";
 import { inputTypes } from "../../../CommonComponents/InputBox/InputRow/InputRow";
 import FAIcon from "../../../CommonComponents/FAIcon/FAIcon";
+import { apiMethodTypes, fetchAPI } from "../../../modules/Fetcher";
 
 export const TagManagerTitle = "Manage Tags";
 
@@ -29,7 +30,7 @@ const TagManager = () => {
     useEffect(() => {
         const action = async () => {
             try {
-                const response = await (await fetch(TagService.getAllTags)).json();
+                const response = await fetchAPI(TagService.getAllTags, apiMethodTypes.GET);
                 if (response.generalResponse.isSuccess) {
                     setTagList(response.tags.sort((t1, t2) => t1.name.localeCompare(t2.name)));
                 }
@@ -94,22 +95,14 @@ const TagManager = () => {
                         try {
                             const newTagName = data[0][0].value;
                             if (newTagName.length > 0) {
-                                const response = await fetch(TagService.createTag, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({name: newTagName}),
-                                });
+                                const response = await fetchAPI(TagService.createTag, apiMethodTypes.POST, {name: newTagName});
                                 
-                                const r = await response.json();
-                                
-                                if (r.generalResponse.isSuccess) {
-                                    setTagList([...tagList.map(t => ({...t})), {id: r.id, name: newTagName}]);
+                                if (response.generalResponse.isSuccess) {
+                                    setTagList([...tagList.map(t => ({...t})), {id: response.id, name: newTagName}]);
                                     setIsModalVisible(false);
                                 }
                                 else {
-                                    actionSet.failedAction(r.generalResponse.message);
+                                    actionSet.failedAction(response.generalResponse.message);
                                 }
                             }
                             else {
@@ -148,12 +141,7 @@ const TagManager = () => {
                             confirmButtonOnClick={
                                 async () => {
                                     try {
-                                        const response = await (await fetch(`${TagService.deleteTag}/${tagList[i].id}`, {
-                                            method: 'DELETE',
-                                            headers: {
-                                            'Content-Type': 'application/json',
-                                            },
-                                        })).json();
+                                        const response = await fetchAPI(`${TagService.deleteTag}/${tagList[i].id}`, apiMethodTypes.DELETE)
                                         setIsModalVisible(false);
                                         
                                         if (response.generalResponse.isSuccess) {
@@ -227,13 +215,7 @@ const TagManager = () => {
                                     const newTagName = data[0][0].value;
 
                                     if (newTagName !== tagList[i].name && newTagName !== '') {
-                                        const response = await (await fetch(TagService.updateTag, {
-                                            method: 'PUT',
-                                            headers: {
-                                                'Content-Type': 'application/json',
-                                            },
-                                            body: JSON.stringify({tag: {id: tagList[i].id, name: newTagName}}),
-                                        })).json();
+                                        const response = await fetchAPI(TagService.updateTag, apiMethodTypes.PUT, {tag: {id: tagList[i].id, name: newTagName}});
     
                                         if (response.generalResponse.isSuccess) {
                                             setTagList(tagList.map(t => t.id === uniqueId ? {id: t.id, name: newTagName} : {...t}))

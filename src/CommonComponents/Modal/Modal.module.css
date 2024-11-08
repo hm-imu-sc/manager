@@ -38,7 +38,7 @@
 
 .CloseButton {
     border: 2px solid lightblue;
-    border-radius: 5px;
+    border-radius: 10px;
     color: lightblue;
     background-color: transparent;
     padding: 5px 20px;
@@ -49,13 +49,14 @@
 }
 
 .CloseButton:hover {
-    border-color: rgba(173, 216, 230, 0.822);;
-    background-color: rgba(173, 216, 230, 0.822);
+    border-color: lightblue;
+    background-color: lightblue;
     color: #282c34;
 }
 
-.CloseButton:focus {
-    outline: 2px solid rgba(173, 216, 230, 0.555);
+.CloseButton:active {
+    background-color: transparent;
+    color: lightblue;
 }
 
 .Devider {
@@ -118,7 +119,7 @@
     width: 1500px;
 }
 .LargeModalContentDiv { 
-    max-height: 760px;
+    max-height: 730px;
 }
 .ButtonSet {
     display: flex;

@@ -1,0 +1,47 @@
+.RootDiv {
+    margin: 50px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.DateField {
+    font-size: 30px;
+    background-color: #282c34;
+    border: 2px solid lightblue;
+    border-radius: 10px;
+    padding: 10px 30px;
+    color: lightblue;
+}
+
+.DateField::-webkit-inner-spin-button {
+    color: red;
+}
+
+.DateField::-webkit-calendar-picker-indicator {
+    filter: invert(70%) sepia(20%) saturate(100%) hue-rotate(90deg) brightness(1);
+}
+
+.Button {
+    border: 2px solid lightblue;
+    border-radius: 10px;
+    color: lightblue;
+    background-color: transparent;
+    padding: 5px 20px;
+    font-weight: bold;
+    font-family: "Consolas";
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.Button:hover {
+    background-color: lightblue;
+    color: #282c34;
+}
+
+.Button:active {
+    background-color: transparent;
+    color: lightblue;
+}

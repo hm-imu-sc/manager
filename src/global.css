@@ -1,6 +1,8 @@
 body {
     background-color: #282c34;
     color: lightblue;
+    font-family: 'Calibri', 'Arial', 'Consolas';
+    cursor: url("https://example.com/path/to/cursor.png"), auto;
 }
 
 input:-webkit-autofill,

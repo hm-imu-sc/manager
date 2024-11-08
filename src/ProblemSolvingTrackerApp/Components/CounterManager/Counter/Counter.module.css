@@ -1,0 +1,73 @@
+.RootDiv {
+    /* display: flex; */
+    position: relative;
+    border-radius: 10px;
+}
+
+.Button {
+    border: 2px solid #08344e;
+    border-radius: 10px;
+    
+    padding: 10px 15px;
+    font-size: 25px;
+    
+    color: #08344e;
+    background-color: lightblue;
+    cursor: pointer;
+    
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    
+    outline: 5px solid lightblue;
+}
+
+.Button:hover {
+    background-color: #08344e;
+    color: lightblue;
+}
+
+.Button:active {
+    background-color: lightblue;
+    color: #08344e;
+}
+
+.PlusButton {
+    right: 15px;
+}
+
+.MinusButton {
+    left: 15px;
+}
+
+.TopicCount {
+    border: 1px solid lightblue;
+    border-radius: 15px;
+    border-left: 0;
+    border-right: 0;
+    padding: 10px 15px;
+    background-color: lightblue;
+    color: #282c34;
+    min-width: 230px;
+    user-select: none;
+}
+
+.Divider {
+    border-color: lightblue;
+    width: 100%;
+}
+
+.Count {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'ROG Fonts';
+}
+
+.TopicName {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.Hidden {
+    display: none;
+}
