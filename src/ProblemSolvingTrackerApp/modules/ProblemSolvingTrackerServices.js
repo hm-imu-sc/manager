@@ -1,4 +1,4 @@
-const endpoint = "https://192.168.0.4:7014";
+const endpoint = "https://192.168.0.4:5000";
 
 export const TagService = {
     deleteTag: `${endpoint}/delete_tag`,
