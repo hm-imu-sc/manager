@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import cssClasses from './ProblemSolvingTrackerApp.module.css';
 import Modal, { modalModes, modalProps } from "../CommonComponents/Modal/Modal.js";
 import TagManager, { TagManagerTitle } from "./Components/TagManager/TagManager.js";
@@ -7,6 +7,9 @@ import TopicManager, { TopicManagerTitle } from "./Components/TopicManager/Topic
 import StudyMaterialManager, { StudyMaterialManagerTitle } from "./Components/StudyMaterialManager/StudyMaterialManager";
 import FAIcon from "../CommonComponents/FAIcon/FAIcon.js";
 import CounterManager from "./Components/CounterManager/CounterManager";
+import RenderOnCondition from "../CommonComponents/RenderOnCondition/RenderOnCondition";
+import AlertBox from "../CommonComponents/AlertBox/AlertBox";
+import AlertListContext from "../Context/AlertListContext";
 
 const Tracker = () => {
     const [refreshCounter, setRefreshCounter] = useState(1);
@@ -15,6 +18,8 @@ const Tracker = () => {
         modalProps: modalProps,
         modalContent: null
     });
+
+    const alert = useContext(AlertListContext);
 
     const modalLauncher = (renderingMode, title, content) => {
         setModalState(updateProps(modalState, {
@@ -27,26 +32,26 @@ const Tracker = () => {
         setIsModalVisible(true);
     }
 
-    const refreshModalContent = () => {
+    const refresh = () => {
         setRefreshCounter(r => r + 1);
+        alert.pushAlert("Settings reloaded.", 2000);
     }
 
     return (
         <div className={cssClasses.Root}>
-
             <CounterManager />
-
             <div className={cssClasses.LoaderDiv}>
                 <button className={[cssClasses.Loader, cssClasses.SettingsButton].join(" ")} onClick={() => setIsModalVisible(true)}>
                     <FAIcon iconClasses={["fad fa-cog"]} />
                 </button>
             </div>
-            {isModalVisible ? 
+            <AlertBox />
+            <RenderOnCondition condition={isModalVisible}>
                 <Modal 
                     key={refreshCounter} 
                     renderingMode={modalModes.large} 
                     title={"Settings"} setIsVisible={setIsModalVisible}
-                    buttonSet={[{text: "Refresh", onClick: refreshModalContent}]}>
+                    buttonSet={[{text: "Refresh", onClick: refresh}]}>
                     <div className={cssClasses.SectionTitle}>Tags:</div>
                     <TagManager />
                     <hr className={cssClasses.Divider}/>
@@ -56,7 +61,7 @@ const Tracker = () => {
                     <div className={cssClasses.SectionTitle}>Topics:</div>
                     <TopicManager />
                 </Modal> 
-            : null}
+            </RenderOnCondition>
         </div>
     );
 }

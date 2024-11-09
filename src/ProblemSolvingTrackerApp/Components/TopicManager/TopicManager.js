@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import Topic, { topicRendetingMode } from "./Topic/Topic";
 import cssClasses from "./TopicManager.module.css";
 import Modal, { modalModes, modalProps } from "../../../CommonComponents/Modal/Modal";
@@ -6,6 +6,7 @@ import DialogBox from "../../../CommonComponents/DialogBox/DialogBox";
 import { updateProps } from "../../../modules/Helpers";
 import { TopicService, TagService, StudyMaterialService } from "../../modules/ProblemSolvingTrackerServices";
 import FAIcon from "../../../CommonComponents/FAIcon/FAIcon";
+import AlertListContext from "../../../Context/AlertListContext";
 
 export const TopicManagerTitle = 'Manage Topics';
 
@@ -23,6 +24,8 @@ const TopicManager = () => {
         modalProps: modalProps,
         modalContent: null
     });
+
+    const alert = useContext(AlertListContext);
 
     /**
     * Intial loading of all topics
@@ -74,6 +77,7 @@ const TopicManager = () => {
             setIsModalVisible(true);
         }
     }
+
     useEffect(() => {
         loadAllTopics();
     }, []);
@@ -122,6 +126,7 @@ const TopicManager = () => {
                             const newTopicList = topicList.map(t => ({...t}));
                             newTopicList.push(topicData.topicData);
                             setTopicList(newTopicList);
+                            alert.pushAlert("New topic added successfully.", 2000);
                         }
                         else {
                             isSuccess = false;
@@ -169,6 +174,7 @@ const TopicManager = () => {
                                 
                                 if (response.generalResponse.isSuccess) {
                                     setTopicList(topics => topics.filter(t => t.id !== topic.id));
+                                    alert.pushAlert("Topic deleted successfully.", 2000);
                                 }
                                 else {
                                     setModalState(updateProps(modalState, {
@@ -232,6 +238,7 @@ const TopicManager = () => {
     
                     if (response.generalResponse.isSuccess) {
                         setTopicList(topicList.map(t => t.id === topic.id ? topic : t));
+                        alert.pushAlert("Topic updated successfully.", 2000);
                     }
                     else {
                         isSuccess = false;

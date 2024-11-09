@@ -1,0 +1,37 @@
+.RootDiv {
+    position: relative;
+}
+
+.ContentDiv {
+    border: 7px solid lightblue;
+    border-radius: 10px;
+    width: 300px;
+    text-align: left;
+    max-height: 100px;
+    overflow: auto;
+    background-color: lightblue;
+    color: #282c34;
+}
+
+.CloseButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    border: 1px solid #282c34;
+    border-radius: 5px;
+    color: #282c34;
+    background-color: transparent;
+    padding: 2px 5px;
+    font-weight: bold;
+    font-family: "Consolas";
+    font-size: 12px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.CloseButton:hover {
+    border-color: #282c34;
+    background-color: #282c34;
+    color: lightblue;
+}

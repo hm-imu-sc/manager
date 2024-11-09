@@ -49,7 +49,7 @@ const Counter = (props) => {
     return (
         <Fragment>
             <div className={cssClasses.RootDiv} onMouseEnter={() => setIsActive(true)} onMouseLeave={() => setIsActive(false)}>
-                <RenderOnCondition condition={props.mode === counterModes.topicCounter || props.mode === counterModes.ojCounter}>
+                <RenderOnCondition condition={props.mode !== counterModes.summary}>
                     <button className={[cssClasses.Button, cssClasses.MinusButton, isActive ? '' : cssClasses.Hidden].join(" ")} onClick={() => props.updateCount(props.data.date, props.data.topicId, props.data.solveCount - 1)}>
                         <FAIcon iconClasses={["fas fa-minus"]} />
                     </button>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import cssClasses from "./StudyMaterialManager.module.css";
 import { modalProps } from "../../../CommonComponents/Modal/Modal";
 import { StudyMaterialService } from "../../modules/ProblemSolvingTrackerServices";
@@ -9,6 +9,7 @@ import InputBox from "../../../CommonComponents/InputBox/InputBox";
 import { inputTypes } from "../../../CommonComponents/InputBox/InputRow/InputRow";
 import FAIcon from "../../../CommonComponents/FAIcon/FAIcon";
 import StudyMaterial from "./StudyMaterial/StudyMaterial";
+import AlertListContext from "../../../Context/AlertListContext";
 
 export const StudyMaterialManagerTitle = 'Manage Study Materials';
 
@@ -23,6 +24,8 @@ const StudyMaterialManager = () => {
         modalProps: modalProps,
         modalContent: null
     });
+
+    const alert = useContext(AlertListContext);
 
     /**
     * Intial loading of all study materials
@@ -116,6 +119,7 @@ const StudyMaterialManager = () => {
                                 if (r.generalResponse.isSuccess) {
                                     setStudyMaterialList([...studyMaterialList.map(sm => ({...sm})), {id: r.id, title: newTitle, url: newURL}]);
                                     setIsModalVisible(false);
+                                    alert.pushAlert('New study material added successfully.', 2000);
                                 }
                                 else {
                                     actionSet.failedAction(r.generalResponse.message);
@@ -174,6 +178,7 @@ const StudyMaterialManager = () => {
                                             let newStudyMaterialList = [...studyMaterialList];
                                             newStudyMaterialList.splice(i, 1);
                                             setStudyMaterialList(newStudyMaterialList);
+                                            alert.pushAlert('Study material deleted successfully.', 2000);
                                         }
                                         else {
                                             setModalState(updateProps(modalState, {
@@ -260,6 +265,7 @@ const StudyMaterialManager = () => {
                                         if (response.generalResponse.isSuccess) {
                                             setStudyMaterialList(studyMaterialList.map(sm => sm.id === uniqueId ? {id: sm.id, title: newTitle, url: newUrl} : {...sm}))
                                             setIsModalVisible(false);
+                                            alert.pushAlert('Study material updated successfully.', 2000);
                                         }
                                         else {
                                             actionSet.failedAction(response.generalResponse.message);
