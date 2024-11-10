@@ -1,16 +1,3 @@
-.Root {
-    text-align: center;
-}
-
-.LoaderDiv {
-    display: flex;
-    flex-direction: column;
-    width: 400px;
-    margin: auto;
-    margin-top: 30px;
-    row-gap: 10px;
-}
-
 .Loader {
     border: 2px solid lightblue;
     border-radius: 5px;
@@ -33,20 +20,6 @@
     outline: 2px solid rgba(173, 216, 230, 0.555);
 }
 
-.Divider {
-    margin-top: 20px;
-    border-color: lightblue;
-}
-
-.SettingsButton {
-    position: fixed;
-    top: 30px;
-    right: 30px;
-    padding: 10px 15px;
-    font-size: 40px;
-    border-radius: 15px;
-}
-
 .AppBrowser {
     position: fixed;
     top: 30px;
@@ -56,7 +29,6 @@
     border-radius: 15px;
 }
 
-.SectionTitle {
-    font-size: 20px;
-    text-align: left;
-}   
+.RootDiv {
+    text-align: center;
+}
