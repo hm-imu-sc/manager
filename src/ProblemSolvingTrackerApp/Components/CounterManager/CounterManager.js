@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment, useContext } from "react";
 import cssClasses from "./CounterManager.module.css";
-import Counter from "./Counter/Counter";
+import Counter, { counterViewMode } from "./Counter/Counter";
 import { apiMethodTypes, fetchAPI } from "../../../modules/Fetcher";
 import { CountService } from "../../modules/ProblemSolvingTrackerServices";
 import { Datetime, updateProps } from "../../../modules/Helpers";
@@ -11,7 +11,7 @@ import Calender from "../../../CommonComponents/Calender/Calender";
 import { AdjustmentFlag, OnlineJudgeFlag, SummaryFlag } from "../../../modules/Constants";
 import RenderOnCondition from "../../../CommonComponents/RenderOnCondition/RenderOnCondition";
 import AlertListContext from "../../../Context/AlertListContext";
-import { defaultCallBack } from "../../../modules/DefaultValues";
+import TabBar from "../../../CommonComponents/TabBar/TabBar";
 
 export const counterModes = Object.freeze({
     topicCounter: 1,
@@ -24,9 +24,10 @@ const CounterManager = () => {
     /**
      * define states
      */
-    const [modeDateStack, setModeDateStack] = useState([]);
     const [mode, setMode] = useState(counterModes.topicCounter);
+    const [viewMode, setViewMode] = useState(counterViewMode.showAll);
     const [currentDate, setCurrentDate] = useState(Datetime.today);
+    const [topicCounterDate, setTopicCounterDate] = useState(Datetime.today);
     const [refreshCounter, setRefreshCounter] = useState(1);
     const [countList, setCountList] = useState([]);
     const [countComponents, setCountComponents] = useState([]);
@@ -43,8 +44,9 @@ const CounterManager = () => {
         setRefreshCounter(r => r + 1);
     }
 
-    const updateModeDateStack = () => {
-        setModeDateStack(s => [...s.map(ss => ({...ss})), {mode: mode, date: currentDate}]);
+    const updateCurrentDate = date => {
+        setCurrentDate(date)
+        setTopicCounterDate(date);
     }
 
     const launchModal = (renderingMode, title, content) => {
@@ -90,30 +92,64 @@ const CounterManager = () => {
         ));
     }
 
-    const changeMode = (newMode, date) => {
-        if (newMode === counterModes.topicCounter) {
-            setModeDateStack([]);
-        }
-        else {
-            updateModeDateStack();
-        }
-        setMode(newMode);
-        setCurrentDate(new Datetime({date: Datetime.extractDateParameter(new Date(date))}));
-    }
+    const horizontalTabs = {
+        tabs: [
+            {
+                id: counterViewMode.showAll,
+                name: 'Show All'
+            },
+            {
+                id: counterViewMode.showSolved,
+                name: 'Solved'
+            },
+            {
+                id: counterViewMode.showUnsolved,
+                name: 'Unsolved'
+            }
+        ],
+        onClick: setViewMode
+    };
 
-    const exitToPreviousMode = () => {
-        if (modeDateStack.length > 0) {
-            setModeDateStack(s => {
-                const modifiedStack = s.map(ss => ({...ss}));
-                const lastMode = modifiedStack.pop();
-    
-                setMode(lastMode.mode);
-                setCurrentDate(lastMode.date);
+    const verticalTabs = {
+        tabs: [
+            {
+                id: counterModes.topicCounter,
+                name: 'Topic Counter'
+            },
+            {
+                id: counterModes.ojCounter,
+                name: 'OJ Counter'
+            },
+            {
+                id: counterModes.summary,
+                name: 'Summary'
+            },
+            {
+                id: counterModes.adjustment,
+                name: 'Adjustments'
+            }
+        ],
+        onClick: setMode
+    };
 
-                return modifiedStack;
-            });
+    useEffect(() => {
+        switch (mode) {
+            case counterModes.topicCounter:
+                setCurrentDate(topicCounterDate);
+                break;
+            case counterModes.ojCounter:
+                setCurrentDate(new Datetime({date: Datetime.extractDateParameter(new Date(OnlineJudgeFlag))}));
+                break;
+            case counterModes.summary:
+                setCurrentDate(new Datetime({date: Datetime.extractDateParameter(new Date(SummaryFlag))}));
+                break;
+            case counterModes.adjustment:
+                setCurrentDate(new Datetime({date: Datetime.extractDateParameter(new Date(AdjustmentFlag))}));
+                break;
+            default:
+                break;
         }
-    }
+    }, [mode]);
 
     useEffect(() => {
         const action = async () => {
@@ -139,23 +175,24 @@ const CounterManager = () => {
             <Counter 
                 key={`${count.date}_${count.topicId}`} 
                 mode={mode}
+                viewMode={viewMode}
                 data={count}
                 updateCount={updateCount} />
         )));
-    }, [countList, mode]);
+    }, [countList, mode, viewMode]);
 
     return (
         <Fragment>
             <div className={cssClasses.RootDiv}>
                 <div className={cssClasses.DateSection}>
                     <RenderOnCondition condition={mode === counterModes.topicCounter}>
-                        <button className={[cssClasses.Button, cssClasses.DateShifterButton].join(' ')} onClick={() => setCurrentDate(new Datetime({date: currentDate.dateParametes, offset: {days: -1}}))}>
+                        <button className={[cssClasses.Button, cssClasses.DateShifterButton].join(' ')} onClick={() => updateCurrentDate(new Datetime({date: currentDate.dateParametes, offset: {days: -1}}))}>
                             <FAIcon iconClasses={["fad fa-chevron-left"]} />
                         </button>
                         <div className={cssClasses.Date} onClick={launchDatePicker}>
                             {`${Number.parseInt(currentDate.day)}`}<sup>{currentDate.daySuperscript}</sup>{` ${currentDate.monthName}, ${currentDate.year}`}
                         </div>
-                        <button className={[cssClasses.Button, cssClasses.DateShifterButton].join(' ')} onClick={() => setCurrentDate(new Datetime({date: currentDate.dateParametes, offset: {days: 1}}))}>
+                        <button className={[cssClasses.Button, cssClasses.DateShifterButton].join(' ')} onClick={() => updateCurrentDate(new Datetime({date: currentDate.dateParametes, offset: {days: 1}}))}>
                             <FAIcon iconClasses={["fad fa-chevron-right"]} />
                         </button>
                     </RenderOnCondition>
@@ -175,35 +212,22 @@ const CounterManager = () => {
                         </div>
                     </RenderOnCondition>
                 </div>
-                <div className={[cssClasses.Panel, cssClasses.ActionPanel].join(' ')}>
-                    <RenderOnCondition condition={modeDateStack.length > 0}>
-                        <button className={[cssClasses.Button, cssClasses.BackButton].join(' ')} onClick={exitToPreviousMode}>
-                            <FAIcon iconClasses={['fad fa-arrow-left']} />
-                        </button>
-                    </RenderOnCondition>
 
+                <div className={cssClasses.CounterListRoot}>
+                    <TabBar verticalTabs={verticalTabs} horizontalTabs={horizontalTabs}>
+                        <div className={[cssClasses.Panel, cssClasses.CounterList].join(' ')}>
+                            {countComponents}
+                        </div>
+                    </TabBar>
+                </div>
+
+                <div className={[cssClasses.Panel, cssClasses.ActionPanel].join(' ')}>
                     <button className={cssClasses.Button} onClick={refresh}>Refresh</button>
                     
                     <RenderOnCondition condition={mode !== counterModes.summary}>
                         <button className={cssClasses.Button} onClick={saveChanges}>Save Changes</button>
-                        <button className={cssClasses.Button} onClick={() => changeMode(counterModes.summary, SummaryFlag)}>Show Summary</button>
                     </RenderOnCondition>
-
-                    <RenderOnCondition condition={mode !== counterModes.adjustment}>
-                        <button className={cssClasses.Button} onClick={() => changeMode(counterModes.adjustment, AdjustmentFlag)}>Adjustments</button>
-                    </RenderOnCondition>
-                    
-                    <RenderOnCondition condition={mode !== counterModes.ojCounter}>
-                        <button className={cssClasses.Button} onClick={() => changeMode(counterModes.ojCounter, OnlineJudgeFlag)}>Online Judje Counter</button>
-                    </RenderOnCondition>
-
-                    <RenderOnCondition condition={mode !== counterModes.topicCounter}>
-                        <button className={cssClasses.Button} onClick={() => changeMode(counterModes.topicCounter, Datetime.today.date)}>Topic Counter</button>
-                    </RenderOnCondition>
-                </div>
-                <div className={[cssClasses.Panel, cssClasses.CounterList].join(' ')}>
-                    {countComponents}
-                </div>
+                </div>        
             </div>
             <RenderOnCondition condition={isModalVisible}>
                 <Modal renderingMode={modalState.modalProps.renderingMode} title={modalState.modalProps.title} setIsVisible={setIsModalVisible} >

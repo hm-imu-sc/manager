@@ -1,0 +1,22 @@
+.TabButton {
+    border: 1px solid rgba(173, 216, 230, 0.247);
+    
+    padding: 10px;
+    font-size: 20px;
+    
+    color: rgba(173, 216, 230, 0.5);
+    background-color: transparent;
+    cursor: pointer;
+    overflow: hidden;
+
+    text-align: left;
+}
+
+.Active {
+    background-color: lightblue;
+    color: #282c34;
+}
+
+.Active:hover {
+    color: #282c34!important;
+}

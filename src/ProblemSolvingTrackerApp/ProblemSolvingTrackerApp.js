@@ -10,6 +10,7 @@ import CounterManager from "./Components/CounterManager/CounterManager";
 import RenderOnCondition from "../CommonComponents/RenderOnCondition/RenderOnCondition";
 import AlertBox from "../CommonComponents/AlertBox/AlertBox";
 import AlertListContext from "../Context/AlertListContext";
+import { Link } from 'react-router-dom';
 
 const Tracker = () => {
     const [refreshCounter, setRefreshCounter] = useState(1);
@@ -44,6 +45,10 @@ const Tracker = () => {
                 <button className={[cssClasses.Loader, cssClasses.SettingsButton].join(" ")} onClick={() => setIsModalVisible(true)}>
                     <FAIcon iconClasses={["fad fa-cog"]} />
                 </button>
+                <Link className={[cssClasses.Loader, cssClasses.AppBrowser].join(" ")} to="/">
+                    <FAIcon iconClasses={['fad fa-arrow-left']} />
+                </Link>
+                
             </div>
             <AlertBox />
             <RenderOnCondition condition={isModalVisible}>
