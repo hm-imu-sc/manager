@@ -29,3 +29,9 @@ input:-webkit-autofill:active{
     border: solid 2px transparent;
     border-radius: 5px;
 }
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

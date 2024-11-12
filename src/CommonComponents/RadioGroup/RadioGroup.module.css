@@ -1,0 +1,70 @@
+.RedioGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    border: 1px solid rgba(173, 216, 230, 0.2);
+    border-radius: 10px;
+    padding: 10px 10px;
+    width: 200px;
+    overflow: hidden;
+    position: relative;
+    padding-top: 45px;
+}
+
+.RedioGroup label {
+    display: flex;
+    justify-content: center;
+}
+
+.RedioGroup label {
+    width: 100%;
+}
+
+.RedioGroup label .Label:hover {
+    background-color: lightblue;
+    color: black;
+}
+
+.RedioGroup label .Tick {
+    background-color: lightblue;
+    color: black;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+
+    padding: 5px 10px;
+}
+
+.RedioGroup label .Label {
+    border: 1px solid rgba(173, 216, 230, 0.5);
+    border-radius: 5px;
+    width: 100%;
+
+    padding: 5px 10px;
+}
+
+.RedioGroup input {
+    display: none;
+}
+
+.Active {
+    border-bottom-left-radius: 0!important;
+    border-top-left-radius: 0!important;
+}
+
+.RedioGroup label .Label.Active:hover {
+    background-color: transparent;
+    color: lightblue!important;
+}
+
+.Title {
+    background-color: lightblue;
+    color: #282c34;
+    font-weight: bold;
+    font-size: 20px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding: 5px 0;
+}

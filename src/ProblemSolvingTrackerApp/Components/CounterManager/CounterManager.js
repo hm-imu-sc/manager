@@ -3,7 +3,7 @@ import cssClasses from "./CounterManager.module.css";
 import Counter, { counterViewMode } from "./Counter/Counter";
 import { apiMethodTypes, fetchAPI } from "../../../modules/Fetcher";
 import { CountService } from "../../modules/ProblemSolvingTrackerServices";
-import { Datetime, updateProps } from "../../../modules/Helpers";
+import { Datetime, isNullOrEmpty, updateProps } from "../../../modules/Helpers";
 import Modal, {modalModes, modalProps} from "../../../CommonComponents/Modal/Modal";
 import DialogBox from "../../../CommonComponents/DialogBox/DialogBox";
 import FAIcon from "../../../CommonComponents/FAIcon/FAIcon";
@@ -12,12 +12,31 @@ import { AdjustmentFlag, OnlineJudgeFlag, SummaryFlag } from "../../../modules/C
 import RenderOnCondition from "../../../CommonComponents/RenderOnCondition/RenderOnCondition";
 import AlertListContext from "../../../Context/AlertListContext";
 import TabBar from "../../../CommonComponents/TabBar/TabBar";
+import RadioGroup from "../../../CommonComponents/RadioGroup/RadioGroup";
 
 export const counterModes = Object.freeze({
     topicCounter: 1,
     ojCounter: 2,
     summary: 3,
     adjustment: 4
+});
+
+const sortByOptions = Object.freeze({
+    topicName: 1,
+    solveCount: 2
+});
+
+const orderByOptions = Object.freeze({
+    asc: 1,
+    desc: 2
+});
+
+const solveCountFilterModeOptions = Object.freeze({
+    l: 1,
+    le: 2,
+    eq: 3,
+    ge: 4,
+    g: 5
 });
 
 const CounterManager = () => {
@@ -32,11 +51,13 @@ const CounterManager = () => {
     const [countList, setCountList] = useState([]);
     const [countComponents, setCountComponents] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [modalState, setModalState] = useState({
-        modalProps: modalProps,
-        modalContent: null
-    });
-    
+    const [modalState, setModalState] = useState({modalProps: modalProps, modalContent: null});
+    const [searchKeyword, setSearchKeyword] = useState('');
+    const [sortBy, setSortBy] = useState(sortByOptions.topicName);
+    const [orderBy, setOrderBy] = useState(orderByOptions.asc);
+    const [solveCountFilterMode, setSolveCountFilterMode] = useState(solveCountFilterModeOptions.ge);
+    const [solveCountCriteria, setSolveCountCriteria] = useState('');
+
     const alert = useContext(AlertListContext);
 
     const refresh = () => {
@@ -132,6 +153,15 @@ const CounterManager = () => {
         onClick: setMode
     };
 
+    const solveCountFilterModeIconClasses = [
+        '',
+        'fas fa-less-than',
+        'fas fa-less-than-equal',
+        'fas fa-equals',
+        'fas fa-greater-than-equal',
+        'fas fa-greater-than'
+    ];
+
     useEffect(() => {
         switch (mode) {
             case counterModes.topicCounter:
@@ -171,15 +201,46 @@ const CounterManager = () => {
     }, [refreshCounter, currentDate]);
 
     useEffect(() => {
-        setCountComponents(countList.sort((c1, c2) => c1.topicName.localeCompare(c2.topicName)).map(count => (
-            <Counter 
-                key={`${count.date}_${count.topicId}`} 
-                mode={mode}
-                viewMode={viewMode}
-                data={count}
-                updateCount={updateCount} />
-        )));
-    }, [countList, mode, viewMode]);
+        setCountComponents(countList.sort((c1, c2) => {
+            if (sortBy === sortByOptions.topicName) {
+                return (orderBy === orderByOptions.asc) ? c1.topicName.localeCompare(c2.topicName) : c2.topicName.localeCompare(c1.topicName);
+            }
+            else {
+                return (orderBy === orderByOptions.asc) ? ((c2.solveCount <= c1.solveCount) ? 1 : -1) : ((c1.solveCount <= c2.solveCount) ? 1 : -1);
+            }
+        }).map(count => {
+            const passBySearchKeyword = isNullOrEmpty(searchKeyword) || count.topicName.toLocaleLowerCase().includes(searchKeyword.toLocaleLowerCase());
+            let passBySolveCountCriteria = isNullOrEmpty(solveCountCriteria);
+
+            if (solveCountFilterMode === solveCountFilterModeOptions.l && count.solveCount < Number.parseInt(solveCountCriteria)) {
+                passBySolveCountCriteria = true;
+            }
+            else if (solveCountFilterMode === solveCountFilterModeOptions.le && count.solveCount <= Number.parseInt(solveCountCriteria)) {
+                passBySolveCountCriteria = true;
+            }
+            else if (solveCountFilterMode === solveCountFilterModeOptions.eq && count.solveCount === Number.parseInt(solveCountCriteria)) {
+                passBySolveCountCriteria = true;
+            }
+            else if (solveCountFilterMode === solveCountFilterModeOptions.ge && count.solveCount >= Number.parseInt(solveCountCriteria)) {
+                passBySolveCountCriteria = true;
+            }
+            else if (solveCountFilterMode === solveCountFilterModeOptions.g && count.solveCount > Number.parseInt(solveCountCriteria)) {
+                passBySolveCountCriteria = true;
+            }
+
+            if (passBySearchKeyword && passBySolveCountCriteria) {
+                return (
+                    <Counter 
+                        key={`${count.date}_${count.topicId}`} 
+                        mode={mode}
+                        viewMode={viewMode}
+                        data={count}
+                        updateCount={updateCount} />
+                )
+            }
+            return null;
+        }));
+    }, [countList, mode, viewMode, searchKeyword, sortBy, orderBy, solveCountFilterMode, solveCountCriteria]);
 
     return (
         <Fragment>
@@ -215,6 +276,43 @@ const CounterManager = () => {
 
                 <div className={cssClasses.CounterListRoot}>
                     <TabBar verticalTabs={verticalTabs} horizontalTabs={horizontalTabs}>
+                        <div className={cssClasses.SearchBar}>
+                            <label htmlFor="searchKeyword"><FAIcon iconClasses={["fad fa-search"]} /></label>
+                            <input className={cssClasses.SearchKeyword} id="searchKeyword" type="text" maxLength={24} onChange={e => setSearchKeyword(e.target.value)} />
+                        </div>
+
+                        <div className={[cssClasses.FilterGroup]}>
+                            <RadioGroup title="Sort by" name="sortBy" options={[
+                                {
+                                    label: 'Topic Name',
+                                    value: sortByOptions.topicName
+                                },
+                                {
+                                    label: 'Solve Count',
+                                    value: sortByOptions.solveCount
+                                }
+                            ]} onChange={setSortBy} checkedOption={sortBy}/>
+
+                            <RadioGroup title="Order by" name="orderBy" options={[
+                                {
+                                    label: 'Ascending',
+                                    value: orderByOptions.asc
+                                },
+                                {
+                                    label: 'Descending',
+                                    value: orderByOptions.desc
+                                }
+                            ]} onChange={setOrderBy} checkedOption={orderBy}/>     
+                                                   
+                            <div className={cssClasses.SolveCountFilter}>
+                                <label htmlFor="solveCountCriteria"><FAIcon iconClasses={["fas fa-hashtag"]} /></label>
+                                <button className={cssClasses.CompareButton} onClick={() => setSolveCountFilterMode(s => ((s + 1) % 6) + ((s === solveCountFilterModeOptions.g) ? 1 : 0))}>
+                                    <FAIcon iconClasses={[solveCountFilterModeIconClasses[solveCountFilterMode]]} />
+                                </button>
+                                <input className={cssClasses.SearchKeyword} id="solveCountCriteria" type="number" max="9999" onChange={e => setSolveCountCriteria(e.target.value)} />
+                            </div>
+                        </div>
+
                         <div className={[cssClasses.Panel, cssClasses.CounterList].join(' ')}>
                             {countComponents}
                         </div>

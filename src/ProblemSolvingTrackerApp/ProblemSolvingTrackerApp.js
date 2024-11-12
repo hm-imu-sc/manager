@@ -41,14 +41,13 @@ const Tracker = () => {
     return (
         <div className={cssClasses.Root}>
             <CounterManager />
-            <div className={cssClasses.LoaderDiv}>
+            <div>
                 <button className={[cssClasses.Loader, cssClasses.SettingsButton].join(" ")} onClick={() => setIsModalVisible(true)}>
                     <FAIcon iconClasses={["fad fa-cog"]} />
                 </button>
                 <Link className={[cssClasses.Loader, cssClasses.AppBrowser].join(" ")} to="/">
                     <FAIcon iconClasses={['fad fa-arrow-left']} />
                 </Link>
-                
             </div>
             <AlertBox />
             <RenderOnCondition condition={isModalVisible}>

@@ -1,7 +1,7 @@
 import React from "react";
 
 export const isNullOrEmpty = x => {
-    return x === undefined || x === null || x === "";
+    return x === undefined || x === null || x === '';
 }
 
 export const updateProps = (oldProps, newProps) => {

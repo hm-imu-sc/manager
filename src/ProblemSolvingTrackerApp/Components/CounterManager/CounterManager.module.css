@@ -1,5 +1,5 @@
 .RootDiv {
-    margin-top: 50px;
+    margin-top: 35px;
     display: flex;
     flex-direction: column;
     row-gap: 20px;
@@ -77,10 +77,108 @@
 }
 
 .CounterListRoot {
-    margin-top: 30px;
+    margin-top: 40px;
 }
 
 .CounterList {
     max-height: 600px;
+    outline: none;
+}
+
+.SearchBar {
+    display: flex;
+    position: absolute;
+    left: 20px;
+    top: -48px;
+}
+
+.SearchBar label {
+    border: 1px solid lightblue;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    color: lightblue;
+    background-color: transparent;
+    padding: 5px 15px;
+    font-family: "Consolas";
+    font-size: 20px;
+    margin-top: 5px;
+    background-color: lightblue;
+    color: black;
+}
+
+.SearchBar input {
+    border: 1px solid lightblue;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    color: lightblue;
+    background-color: transparent;
+    padding: 5px 10px;
+    font-family: "Consolas";
+    font-size: 15px;
+    margin-top: 5px;
+    width: 200px;
+}
+
+.SearchBar input:focus {
+    outline: none;
+}
+
+.FilterGroup {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    position: absolute;
+    top: 20px;
+    right: -245px;
+}
+
+.SolveCountFilter {
+    display: flex;
+    width: 225px;
+    overflow: hidden;
+}
+
+.SolveCountFilter label {
+    border: 1px solid lightblue;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    padding: 5px;
+    font-family: "Consolas";
+    font-size: 18px;
+    margin-top: 5px;
+    background-color: lightblue;
+    color: black;
+}
+
+.SolveCountFilter button {
+    border: 1px solid lightblue;
+    background-color: transparent;
+    color: lightblue;
+    padding: 5px 10px;
+    font-family: "Consolas";
+    font-size: 18px;
+    width: 50px;
+    margin-top: 5px;
+}
+
+.SolveCountFilter button:active {
+    background-color: lightblue;
+    color: black;
+}
+
+.SolveCountFilter input {
+    border: 1px solid lightblue;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    color: lightblue;
+    background-color: transparent;
+    padding: 5px 10px;
+    font-family: "Consolas";
+    font-size: 15px;
+    margin-top: 5px;
+    width: 136px;
+}
+
+.SolveCountFilter input:focus {
     outline: none;
 }

@@ -2,15 +2,6 @@
     text-align: center;
 }
 
-.LoaderDiv {
-    display: flex;
-    flex-direction: column;
-    width: 400px;
-    margin: auto;
-    margin-top: 30px;
-    row-gap: 10px;
-}
-
 .Loader {
     border: 2px solid lightblue;
     border-radius: 5px;
