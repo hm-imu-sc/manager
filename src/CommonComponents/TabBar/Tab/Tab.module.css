@@ -1,10 +1,11 @@
+@import '../../../global.css';
 .TabButton {
-    border: 1px solid rgba(173, 216, 230, 0.247);
+    border: 1px solid var(--slight-bright-color);
     
     padding: 10px;
     font-size: 20px;
 
-    color: rgba(173, 216, 230, 0.5);
+    color: var(--slight-bright-color);
     background-color: transparent;
     cursor: pointer;
     overflow: hidden;
@@ -13,10 +14,10 @@
 }
 
 .Active {
-    background-color: lightblue;
-    color: #282c34;
+    background-color: var(--primary-color);
+    color: var(--background-color);
 }
 
 .Active:hover {
-    color: #282c34!important;
+    color: var(--background-color)!important;
 }

@@ -1,8 +1,9 @@
+@import '../../../../global.css';
 .RootDiv {
     /* flex: 1 1 0px; */
-    border: 10px solid #282c34;
+    border: 10px solid var(--background-color);
     border-radius: 10px;
-    outline: 1px solid lightblue;
+    outline: 1px solid var(--primary-color);
     min-width: 200px;
     max-width: 300px;
     max-height: 140px;
@@ -19,7 +20,7 @@
 
 .Divider {
     margin-top: 10px;
-    border-color: lightblue;
+    border-color: var(--primary-color);
     width: 100%;
 }
 
@@ -44,14 +45,14 @@
 }
 
 .StudyMaterials > div {
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-radius: 5px;
     padding: 1px 5px 2px;
     font-size: 13px;
 }
 
 .Tags > div {
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-radius: 5px;
     padding: 1px 3px 2px;
     font-size: 10px;
@@ -63,8 +64,8 @@
 }
 
 .StudyMaterial:hover {
-    border-color: rgba(173, 216, 230, 0.822);
-    background-color: rgba(173, 216, 230, 0.822);
+    border-color: var(--semi-transparent-color);
+    background-color: var(--semi-transparent-color);
     color: #08344e;
 }
 
@@ -75,9 +76,9 @@
 }
 
 .EditButton {
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-radius: 10px;
-    color: lightblue;
+    color: var(--primary-color);
     background-color: transparent;
     font-weight: bold;
     font-size: 18px;
@@ -86,8 +87,8 @@
 }
 
 .EditButton:hover {
-    border-color: rgba(173, 216, 230, 0.822);;
-    background-color: rgba(173, 216, 230, 0.822);
+    border-color: var(--semi-transparent-color);;
+    background-color: var(--semi-transparent-color);
     color: #08344e;
 }
 
@@ -102,8 +103,8 @@
     display: flex;
     flex-direction: column;
     row-gap: 5px;
-    background-color: #282c34;
-    outline: 10px solid #282c34;
+    background-color: var(--background-color);
+    outline: 10px solid var(--background-color);
     border-radius: 10px;
     z-index: 4;
 }

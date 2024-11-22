@@ -1,3 +1,4 @@
+@import '../../../../global.css';
 .RootDiv {
     /* display: flex; */
     position: relative;
@@ -5,31 +6,31 @@
 }
 
 .Button {
-    border: 2px solid #08344e;
+    border: 2px solid var(--background-color);
     border-radius: 10px;
     
     padding: 10px 15px;
     font-size: 25px;
     
-    color: #08344e;
-    background-color: lightblue;
+    color: var(--background-color);
+    background-color: var(--primary-color);
     cursor: pointer;
     
     position: absolute;
     top: 50%;
     transform: translate(0, -50%);
     
-    outline: 5px solid lightblue;
+    outline: 5px solid var(--primary-color);
 }
 
 .Button:hover {
-    background-color: #08344e;
-    color: lightblue;
+    background-color: var(--background-color);
+    color: var(--primary-color);
 }
 
 .Button:active {
-    background-color: lightblue;
-    color: #08344e;
+    background-color: var(--primary-color);
+    color: var(--background-color);
 }
 
 .PlusButton {
@@ -41,19 +42,20 @@
 }
 
 .TopicCount {
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-radius: 15px;
     border-left: 0;
     border-right: 0;
     padding: 10px 15px;
-    background-color: lightblue;
-    color: #282c34;
+    background-color: var(--primary-color);
+    color: var(--background-color);
     min-width: 230px;
     user-select: none;
 }
 
 .Divider {
-    border-color: lightblue;
+    border: 1px solid var(--background-color);
+    border-bottom: none;
     width: 100%;
 }
 

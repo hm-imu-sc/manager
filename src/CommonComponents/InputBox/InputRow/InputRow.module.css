@@ -1,3 +1,5 @@
+@import '../../../global.css';
+
 .InputRow {
     width: 100%;
     display: flex;
@@ -11,9 +13,9 @@
 
 .Input {
     width: 100%;
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-radius: 5px;
-    color: lightblue;
+    color: var(--primary-color);
     background-color: transparent;
     padding: 5px 10px;
     font-family: "Consolas";
@@ -24,7 +26,7 @@
 }
 
 .Input:focus {
-    outline: 2px solid rgba(173, 216, 230, 0.555);
+    outline: 2px solid var(--slight-bright-color);
 }
 
 .InputLabel {
@@ -45,16 +47,16 @@
 }
 
 .Option {
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-radius: 5px;
     padding: 1px 7px;
     font-size: 10px;
 }
 
 .EditButton {
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-radius: 5px;
-    color: lightblue;
+    color: var(--primary-color);
     background-color: transparent;
     font-weight: bold;
     font-size: 10px;
@@ -63,7 +65,7 @@
 }
 
 .EditButton:hover {
-    border-color: rgba(173, 216, 230, 0.822);;
-    background-color: rgba(173, 216, 230, 0.822);
+    border-color: var(--semi-transparent-color);;
+    background-color: var(--semi-transparent-color);
     color: #08344e;
 }

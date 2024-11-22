@@ -1,3 +1,5 @@
+@import '../../global.css';
+
 .ModalBackground {
     display: block;
     z-index: 1000;
@@ -13,7 +15,7 @@
 .ModalRootDiv {
     width: 1100px; 
     border-radius: 10px;
-    background-color: #282c34;
+    background-color: var(--background-color);
     margin: auto;
     position: fixed;
     top: 5%;
@@ -21,7 +23,7 @@
     left: 0;
     right: 0;
     position: relative;
-    border: 15px solid #282c34;
+    border: 15px solid var(--background-color);
 }
 
 .ContentDiv {
@@ -37,9 +39,9 @@
 }
 
 .CloseButton {
-    border: 2px solid lightblue;
+    border: 2px solid var(--primary-color);
     border-radius: 10px;
-    color: lightblue;
+    color: var(--primary-color);
     background-color: transparent;
     padding: 5px 20px;
     font-weight: bold;
@@ -49,20 +51,20 @@
 }
 
 .CloseButton:hover {
-    border-color: lightblue;
-    background-color: lightblue;
-    color: #282c34;
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    color: var(--background-color);
 }
 
 .CloseButton:active {
     background-color: transparent;
-    color: lightblue;
+    color: var(--primary-color);
 }
 
 .Devider {
     margin-top: 10px;
     margin-bottom: 15px;
-    border-color: lightblue;
+    border-color: var(--primary-color);
 }
 
 .Title {
@@ -79,9 +81,9 @@
     max-height: 300px;
 }
 .MiniModalCloseButton {
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-radius: 5px;
-    color: lightblue;
+    color: var(--primary-color);
     background-color: transparent;
     font-weight: bold;
     font-family: "Consolas";

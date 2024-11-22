@@ -1,8 +1,9 @@
+@import '../../../../global.css';
 
 .Tag {
     position: relative;
     text-align: center;
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-radius: 5px;
     padding: 5px 15px;
     user-select: none;
@@ -13,20 +14,20 @@
 }
 
 .Button {
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-radius: 4px;
-    color: lightblue;
+    color: var(--primary-color);
     font-weight: bold;
     font-family: "Consolas";
     font-size: 12px;
     cursor: pointer;
-    background-color: #282c34;
+    background-color: var(--background-color);
 }
 
 .Button:hover {
-    border-color: rgba(173, 216, 230, 0.822);;
-    background-color: rgba(173, 216, 230, 0.822);
-    color: #282c34;
+    border-color: var(--semi-transparent-color);;
+    background-color: var(--semi-transparent-color);
+    color: var(--background-color);
 }
 
 .EditButton {
@@ -47,7 +48,7 @@
     align-items: center;
     column-gap: 5px;
     
-    background-color: #282c34b2;
+    background-color: var(--background-color)b2;
     border-radius: 5px;
 
     height: 100%;

@@ -1,3 +1,5 @@
+@import '../../global.css';
+
 .ContentDiv {
     width: 100%;
     display: flex;
@@ -13,9 +15,9 @@
 }
 
 .Button {
-    border: 2px solid lightblue;
+    border: 2px solid var(--primary-color);
     border-radius: 5px;
-    color: lightblue;
+    color: var(--primary-color);
     background-color: transparent;
     padding: 5px 20px;
     font-weight: bold;
@@ -25,12 +27,12 @@
 }
 
 .Button:hover {
-    border-color: rgba(173, 216, 230, 0.822);;
-    background-color: rgba(173, 216, 230, 0.822);
-    color: #282c34;
+    border-color: var(--semi-transparent-color);;
+    background-color: var(--semi-transparent-color);
+    color: var(--background-color);
 }
 
 .Button:focus {
-    outline: 2px solid rgba(173, 216, 230, 0.555);
+    outline: 2px solid var(--slight-bright-color);
 }
 

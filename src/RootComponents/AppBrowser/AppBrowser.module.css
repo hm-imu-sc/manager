@@ -1,12 +1,13 @@
+@import '../../global.css';
 .Apps {
     margin-top: 16%;
     text-align: center;
 }
 
 .App {
-    border: 2px solid lightblue;
+    border: 2px solid var(--primary-color);
     border-radius: 10px;
-    color: lightblue;
+    color: var(--primary-color);
     background-color: transparent;
     padding: 10px 30px;
     margin: 10px 5px;
@@ -18,11 +19,11 @@
 }
 
 .App:hover {
-    border-color: rgba(173, 216, 230, 0.822);;
-    background-color: rgba(173, 216, 230, 0.822);
-    color: #282c34;
+    border-color: var(--semi-transparent-color);;
+    background-color: var(--semi-transparent-color);
+    color: var(--background-color);
 }
 
 .App:focus {
-    outline: 2px solid rgba(173, 216, 230, 0.555);
+    outline: 2px solid var(--slight-bright-color);
 }

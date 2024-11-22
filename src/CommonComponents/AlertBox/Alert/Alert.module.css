@@ -1,16 +1,17 @@
+@import '../../../global.css';
 .RootDiv {
     position: relative;
 }
 
 .ContentDiv {
-    border: 7px solid lightblue;
+    border: 7px solid var(--primary-color);
     border-radius: 10px;
     width: 300px;
     text-align: left;
     max-height: 100px;
     overflow: auto;
-    background-color: lightblue;
-    color: #282c34;
+    background-color: var(--primary-color);
+    color: var(--background-color);
 }
 
 .CloseButton {
@@ -18,9 +19,9 @@
     top: 0;
     right: 0;
 
-    border: 1px solid #282c34;
+    border: 1px solid var(--background-color);
     border-radius: 5px;
-    color: #282c34;
+    color: var(--background-color);
     background-color: transparent;
     padding: 2px 5px;
     font-weight: bold;
@@ -31,7 +32,7 @@
 }
 
 .CloseButton:hover {
-    border-color: #282c34;
-    background-color: #282c34;
-    color: lightblue;
+    border-color: var(--background-color);
+    background-color: var(--background-color);
+    color: var(--primary-color);
 }

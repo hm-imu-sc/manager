@@ -1,5 +1,7 @@
+@import '../../global.css';
+
 .RootDiv {
-    border: 1px solid rgba(173, 216, 230, 0.247);
+    border: 1px solid var(--slight-bright-color);
 
     border-radius: 15px;
     width: 1200px;
@@ -24,9 +26,9 @@
     left: -200px;
 }
 .VerticalTabs button:hover {
-    border-right: 1px solid rgba(173, 216, 230, 0.5);
-    border-color: lightblue;
-    color: lightblue;
+    border-right: 1px solid var(--slight-bright-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 .VerticalTabs button:first-child {
     border-top-left-radius: 10px;
@@ -45,9 +47,9 @@
     max-width: 200px;
 }
 .HorizontalTabs button:hover {
-    border-right: 1px solid rgba(173, 216, 230, 0.5);
-    border-color: lightblue;
-    color: lightblue;
+    border-right: 1px solid var(--slight-bright-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 .HorizontalTabs button:first-child {
     border-top-left-radius: 10px;

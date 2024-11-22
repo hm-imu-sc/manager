@@ -1,3 +1,5 @@
+@import '../../../global.css';
+
 .RootDiv {
     margin-top: 35px;
     display: flex;
@@ -6,8 +8,8 @@
 }
 
 .Panel {
-    border: 15px solid #282c34;
-    outline: 1px solid rgba(173, 216, 230, 0.247);
+    border: 15px solid transparent;
+    outline: 1px solid var(--slight-bright-color);
     border-radius: 15px;
     /* width: 1200px; */
     margin: auto;
@@ -27,9 +29,9 @@
 }
 
 .Button {
-    border: 2px solid lightblue;
+    border: 2px solid var(--primary-color);
     border-radius: 10px;
-    color: lightblue;
+    color: var(--primary-color);
     background-color: transparent;
     padding: 5px 20px;
     font-weight: bold;
@@ -39,13 +41,13 @@
 }
 
 .Button:hover {
-    background-color: lightblue;
-    color: #282c34;
+    background-color: var(--primary-color);
+    color: var(--background-color);
 }
 
 .Button:active {
     background-color: transparent;
-    color: lightblue;
+    color: var(--primary-color);
 }
 
 .BackButton {
@@ -93,24 +95,24 @@
 }
 
 .SearchBar label {
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
-    color: lightblue;
+    color: var(--primary-color);
     background-color: transparent;
     padding: 5px 15px;
     font-family: "Consolas";
     font-size: 20px;
     margin-top: 5px;
-    background-color: lightblue;
-    color: black;
+    background-color: var(--primary-color);
+    color: var(--background-color);
 }
 
 .SearchBar input {
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
-    color: lightblue;
+    color: var(--primary-color);
     background-color: transparent;
     padding: 5px 10px;
     font-family: "Consolas";
@@ -139,21 +141,21 @@
 }
 
 .SolveCountFilter label {
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
     padding: 5px;
     font-family: "Consolas";
     font-size: 18px;
     margin-top: 5px;
-    background-color: lightblue;
-    color: black;
+    background-color: var(--primary-color);
+    color: var(--background-color);
 }
 
 .SolveCountFilter button {
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     background-color: transparent;
-    color: lightblue;
+    color: var(--primary-color);
     padding: 5px 10px;
     font-family: "Consolas";
     font-size: 18px;
@@ -162,15 +164,15 @@
 }
 
 .SolveCountFilter button:active {
-    background-color: lightblue;
-    color: black;
+    background-color: var(--primary-color);
+    color: var(--background-color);
 }
 
 .SolveCountFilter input {
-    border: 1px solid lightblue;
+    border: 1px solid var(--primary-color);
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
-    color: lightblue;
+    color: var(--primary-color);
     background-color: transparent;
     padding: 5px 10px;
     font-family: "Consolas";
