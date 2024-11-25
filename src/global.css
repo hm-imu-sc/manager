@@ -1,9 +1,9 @@
 
 :root {
-    --primary-color: rgb(109, 190, 218);
-    --semi-transparent-color: rgba(109, 190, 218, 0.822);
-    --slight-bright-color: rgba(109, 190, 218, 0.5);
-    --secondary-color: rgba(109, 190, 218, 0.247);
+    --primary-color: #6DBEDA;
+    --semi-transparent-color: #4897B2;
+    --slight-bright-color: #407C90;
+    --secondary-color: #2A6174;
     --background-color: #011627;
 }
 

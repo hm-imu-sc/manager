@@ -60,6 +60,14 @@ const Counter = (props) => {
         ));
     }
 
+    const activateIfSolved = () => {
+        return props.data.solveCount > 0 ? cssClasses.Solved : '';
+    }
+
+    const hideIfInactive = () => {
+        return isActive ? '' : cssClasses.Hidden;
+    }
+
     return (
         <RenderOnCondition condition={
             (props.data.solveCount > 0 && props.viewMode === counterViewMode.showSolved)
@@ -69,22 +77,22 @@ const Counter = (props) => {
             <Fragment>
                 <div className={cssClasses.RootDiv} onMouseEnter={() => setIsActive(true)} onMouseLeave={() => setIsActive(false)}>
                     <RenderOnCondition condition={props.mode !== counterModes.summary}>
-                        <button className={[cssClasses.Button, cssClasses.MinusButton, isActive ? '' : cssClasses.Hidden].join(" ")} onClick={() => props.updateCount(props.data.date, props.data.topicId, props.data.solveCount - 1)}>
+                        <button className={[cssClasses.Button, cssClasses.MinusButton, hideIfInactive(), activateIfSolved()].join(" ")} onClick={() => props.updateCount(props.data.date, props.data.topicId, props.data.solveCount - 1)}>
                             <FAIcon iconClasses={["fas fa-minus"]} />
                         </button>
-                        <button className={[cssClasses.Button, cssClasses.PlusButton, isActive ? '' : cssClasses.Hidden].join(" ")} onClick={() => props.updateCount(props.data.date, props.data.topicId, props.data.solveCount + 1)}>
+                        <button className={[cssClasses.Button, cssClasses.PlusButton, hideIfInactive(), activateIfSolved()].join(" ")} onClick={() => props.updateCount(props.data.date, props.data.topicId, props.data.solveCount + 1)}>
                             <FAIcon iconClasses={["fas fa-plus"]} />
                         </button>
-                        <div className={cssClasses.TopicCount} onClick={launchCounterEditor}>
+                        <div className={[cssClasses.TopicCount, activateIfSolved()].join(' ')} onClick={launchCounterEditor}>
                             <div className={cssClasses.Count}>{props.data.solveCount}</div>
-                            <hr className={cssClasses.Divider} />
+                            <hr className={[cssClasses.Divider, activateIfSolved()].join(' ')} />
                             <div className={cssClasses.TopicName}>{props.data.topicName}</div>
                         </div>
                     </RenderOnCondition>
                     <RenderOnCondition condition={props.mode === counterModes.summary}>
-                        <div className={cssClasses.TopicCount}>
+                        <div className={[cssClasses.TopicCount, activateIfSolved()].join(' ')}>
                             <div className={cssClasses.Count}>{props.data.solveCount}</div>
-                            <hr className={cssClasses.Divider} />
+                            <hr className={[cssClasses.Divider, activateIfSolved()].join(' ')} />
                             <div className={cssClasses.TopicName}>{props.data.topicName}</div>
                         </div>
                     </RenderOnCondition>

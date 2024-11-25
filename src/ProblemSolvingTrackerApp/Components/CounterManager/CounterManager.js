@@ -32,11 +32,11 @@ const orderByOptions = Object.freeze({
 });
 
 const solveCountFilterModeOptions = Object.freeze({
-    l: 1,
-    le: 2,
-    eq: 3,
-    ge: 4,
-    g: 5
+    lessThan: 1,
+    lessThanOrEqualTo: 2,
+    equalTo: 3,
+    greaterThanOrEqualTo: 4,
+    greaterThan: 5
 });
 
 const CounterManager = () => {
@@ -55,7 +55,7 @@ const CounterManager = () => {
     const [searchKeyword, setSearchKeyword] = useState('');
     const [sortBy, setSortBy] = useState(sortByOptions.topicName);
     const [orderBy, setOrderBy] = useState(orderByOptions.asc);
-    const [solveCountFilterMode, setSolveCountFilterMode] = useState(solveCountFilterModeOptions.ge);
+    const [solveCountFilterMode, setSolveCountFilterMode] = useState(solveCountFilterModeOptions.greaterThanOrEqualTo);
     const [solveCountCriteria, setSolveCountCriteria] = useState('');
 
     const alert = useContext(AlertListContext);
@@ -212,19 +212,19 @@ const CounterManager = () => {
             const passBySearchKeyword = isNullOrEmpty(searchKeyword) || count.topicName.toLocaleLowerCase().includes(searchKeyword.toLocaleLowerCase());
             let passBySolveCountCriteria = isNullOrEmpty(solveCountCriteria);
 
-            if (solveCountFilterMode === solveCountFilterModeOptions.l && count.solveCount < Number.parseInt(solveCountCriteria)) {
+            if (solveCountFilterMode === solveCountFilterModeOptions.lessThan && count.solveCount < Number.parseInt(solveCountCriteria)) {
                 passBySolveCountCriteria = true;
             }
-            else if (solveCountFilterMode === solveCountFilterModeOptions.le && count.solveCount <= Number.parseInt(solveCountCriteria)) {
+            else if (solveCountFilterMode === solveCountFilterModeOptions.lessThanOrEqualTo && count.solveCount <= Number.parseInt(solveCountCriteria)) {
                 passBySolveCountCriteria = true;
             }
-            else if (solveCountFilterMode === solveCountFilterModeOptions.eq && count.solveCount === Number.parseInt(solveCountCriteria)) {
+            else if (solveCountFilterMode === solveCountFilterModeOptions.equalTo && count.solveCount === Number.parseInt(solveCountCriteria)) {
                 passBySolveCountCriteria = true;
             }
-            else if (solveCountFilterMode === solveCountFilterModeOptions.ge && count.solveCount >= Number.parseInt(solveCountCriteria)) {
+            else if (solveCountFilterMode === solveCountFilterModeOptions.greaterThanOrEqualTo && count.solveCount >= Number.parseInt(solveCountCriteria)) {
                 passBySolveCountCriteria = true;
             }
-            else if (solveCountFilterMode === solveCountFilterModeOptions.g && count.solveCount > Number.parseInt(solveCountCriteria)) {
+            else if (solveCountFilterMode === solveCountFilterModeOptions.greaterThan && count.solveCount > Number.parseInt(solveCountCriteria)) {
                 passBySolveCountCriteria = true;
             }
 
@@ -257,21 +257,11 @@ const CounterManager = () => {
                             <FAIcon iconClasses={["fad fa-chevron-right"]} />
                         </button>
                     </RenderOnCondition>
-                    <RenderOnCondition condition={mode === counterModes.summary}>
-                        <div className={[cssClasses.Date, cssClasses.TitleOnly].join(' ')}>
-                            Topic Counter Summary
-                        </div>
-                    </RenderOnCondition>
-                    <RenderOnCondition condition={mode === counterModes.adjustment}>
-                        <div className={[cssClasses.Date, cssClasses.TitleOnly].join(' ')}>
-                            Counter Adjustments
-                        </div>
-                    </RenderOnCondition>
-                    <RenderOnCondition condition={mode === counterModes.ojCounter}>
-                        <div className={[cssClasses.Date, cssClasses.TitleOnly].join(' ')}>
-                            Total Solved: {countList.reduce((sum, count) => sum += count.solveCount, 0)}
-                        </div>
-                    </RenderOnCondition>
+                    <div className={[cssClasses.Date, cssClasses.TitleOnly].join(' ')}>
+                        <RenderOnCondition condition={mode === counterModes.summary} children={"Topic Counter Summary"} />
+                        <RenderOnCondition condition={mode === counterModes.adjustment} children={"Counter Adjustments"} />
+                        <RenderOnCondition condition={mode === counterModes.ojCounter} children={`Total Solved: ${countList.reduce((sum, count) => sum += count.solveCount, 0)}`} />
+                    </div>
                 </div>
 
                 <div className={cssClasses.CounterListRoot}>
@@ -306,7 +296,7 @@ const CounterManager = () => {
                                                    
                             <div className={cssClasses.SolveCountFilter}>
                                 <label htmlFor="solveCountCriteria"><FAIcon iconClasses={["fas fa-hashtag"]} /></label>
-                                <button className={cssClasses.CompareButton} onClick={() => setSolveCountFilterMode(s => ((s + 1) % 6) + ((s === solveCountFilterModeOptions.g) ? 1 : 0))}>
+                                <button className={cssClasses.CompareButton} onClick={() => setSolveCountFilterMode(s => ((s + 1) % 6) + ((s === solveCountFilterModeOptions.greaterThan) ? 1 : 0))}>
                                     <FAIcon iconClasses={[solveCountFilterModeIconClasses[solveCountFilterMode]]} />
                                 </button>
                                 <input className={cssClasses.SearchKeyword} id="solveCountCriteria" type="number" max="9999" onChange={e => setSolveCountCriteria(e.target.value)} />

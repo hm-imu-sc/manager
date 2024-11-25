@@ -6,30 +6,47 @@
 }
 
 .Button {
-    border: 2px solid var(--background-color);
+    border: 2px solid var(--semi-transparent-color);
     border-radius: 10px;
     
     padding: 10px 15px;
     font-size: 25px;
     
-    color: var(--background-color);
-    background-color: var(--primary-color);
+    color: var(--semi-transparent-color);
+    background-color: var(--background-color);
     cursor: pointer;
     
     position: absolute;
     top: 50%;
     transform: translate(0, -50%);
     
-    outline: 5px solid var(--primary-color);
+    outline: 5px solid var(--background-color);
+}
+
+.Button.Solved {
+    outline: 5px solid var(--semi-transparent-color);
+    border-color: var(--background-color);
+    background-color: var(--semi-transparent-color);
+    color: var(--background-color);
 }
 
 .Button:hover {
+    background-color: var(--semi-transparent-color);
+    color: var(--background-color);
+}
+
+.Button.Solved:hover {
+    background-color: var(--background-color);
+    color: var(--semi-transparent-color);
+}
+
+.Button:active {
     background-color: var(--background-color);
     color: var(--primary-color);
 }
 
-.Button:active {
-    background-color: var(--primary-color);
+.Button.Solved:active {
+    background-color: var(--semi-transparent-color);
     color: var(--background-color);
 }
 
@@ -42,21 +59,27 @@
 }
 
 .TopicCount {
-    border: 1px solid var(--primary-color);
+    border: 2px solid var(--semi-transparent-color);
     border-radius: 15px;
-    border-left: 0;
-    border-right: 0;
     padding: 10px 15px;
-    background-color: var(--primary-color);
-    color: var(--background-color);
+    background-color: transparent;
+    color: var(--primary-color);
     min-width: 230px;
     user-select: none;
 }
+.TopicCount.Solved {
+    border-color: transparent;
+    background-color: var(--semi-transparent-color);
+    color: var(--background-color);
+}
 
 .Divider {
-    border: 1px solid var(--background-color);
+    border: 1px solid var(--secondary-color);
     border-bottom: none;
     width: 100%;
+}
+.Divider.Solved {
+    border-color: var(--background-color);
 }
 
 .Count {
