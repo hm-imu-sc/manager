@@ -60,7 +60,7 @@ const Counter = (props) => {
         ));
     }
 
-    const activateIfSolved = () => {
+    const highlightIfSolved = () => {
         return props.data.solveCount > 0 ? cssClasses.Solved : '';
     }
 
@@ -77,22 +77,22 @@ const Counter = (props) => {
             <Fragment>
                 <div className={cssClasses.RootDiv} onMouseEnter={() => setIsActive(true)} onMouseLeave={() => setIsActive(false)}>
                     <RenderOnCondition condition={props.mode !== counterModes.summary}>
-                        <button className={[cssClasses.Button, cssClasses.MinusButton, hideIfInactive(), activateIfSolved()].join(" ")} onClick={() => props.updateCount(props.data.date, props.data.topicId, props.data.solveCount - 1)}>
+                        <button className={[cssClasses.Button, cssClasses.MinusButton, hideIfInactive(), highlightIfSolved()].join(" ")} onClick={() => props.updateCount(props.data.date, props.data.topicId, props.data.solveCount - 1)}>
                             <FAIcon iconClasses={["fas fa-minus"]} />
                         </button>
-                        <button className={[cssClasses.Button, cssClasses.PlusButton, hideIfInactive(), activateIfSolved()].join(" ")} onClick={() => props.updateCount(props.data.date, props.data.topicId, props.data.solveCount + 1)}>
+                        <button className={[cssClasses.Button, cssClasses.PlusButton, hideIfInactive(), highlightIfSolved()].join(" ")} onClick={() => props.updateCount(props.data.date, props.data.topicId, props.data.solveCount + 1)}>
                             <FAIcon iconClasses={["fas fa-plus"]} />
                         </button>
-                        <div className={[cssClasses.TopicCount, activateIfSolved()].join(' ')} onClick={launchCounterEditor}>
+                        <div className={[cssClasses.TopicCount, highlightIfSolved()].join(' ')} onClick={launchCounterEditor}>
                             <div className={cssClasses.Count}>{props.data.solveCount}</div>
-                            <hr className={[cssClasses.Divider, activateIfSolved()].join(' ')} />
+                            <hr className={[cssClasses.Divider, highlightIfSolved()].join(' ')} />
                             <div className={cssClasses.TopicName}>{props.data.topicName}</div>
                         </div>
                     </RenderOnCondition>
                     <RenderOnCondition condition={props.mode === counterModes.summary}>
-                        <div className={[cssClasses.TopicCount, activateIfSolved()].join(' ')}>
+                        <div className={[cssClasses.TopicCount, highlightIfSolved()].join(' ')}>
                             <div className={cssClasses.Count}>{props.data.solveCount}</div>
-                            <hr className={[cssClasses.Divider, activateIfSolved()].join(' ')} />
+                            <hr className={[cssClasses.Divider, highlightIfSolved()].join(' ')} />
                             <div className={cssClasses.TopicName}>{props.data.topicName}</div>
                         </div>
                     </RenderOnCondition>
