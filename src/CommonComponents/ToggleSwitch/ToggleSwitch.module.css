@@ -1,0 +1,22 @@
+.RootDiv {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    font-size: 18px;
+    border: 1px solid var(--primary-color);
+    padding: 5px 10px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.Icon {
+    font-size: 20px;
+    border-right: 1px solid var(--primary-color);
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.Text {
+    padding-left: 10px;
+    font-size: 15px;
+}

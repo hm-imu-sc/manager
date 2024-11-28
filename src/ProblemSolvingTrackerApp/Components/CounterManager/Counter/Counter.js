@@ -16,11 +16,11 @@ export const counterViewMode = Object.freeze({
 });
 
 const defaultProps = Object.freeze({
-    viewMode: counterViewMode.showAll
+    viewMode: counterViewMode.showAll,
+    showDifficulty: false
 });
 
 const Counter = (props) => {
-
     props = setDefaultProps(props, defaultProps);
 
     const [isActive, setIsActive] = useState(false);
@@ -68,6 +68,12 @@ const Counter = (props) => {
         return isActive ? '' : cssClasses.Hidden;
     }
 
+    const difficultyColors = ['', cssClasses.EasyDifficulty, cssClasses.MediumDifficulty, cssClasses.HardDifficulty];
+    
+    const highlightDifficulty = () => {
+        return (props.showDifficulty && props.data.difficulty >= 1 && props.data.difficulty <= 3) ? difficultyColors[props.data.difficulty] : '';
+    }
+
     return (
         <RenderOnCondition condition={
             (props.data.solveCount > 0 && props.viewMode === counterViewMode.showSolved)
@@ -75,7 +81,7 @@ const Counter = (props) => {
             || props.viewMode === counterViewMode.showAll
         }>
             <Fragment>
-                <div className={cssClasses.RootDiv} onMouseEnter={() => setIsActive(true)} onMouseLeave={() => setIsActive(false)}>
+                <div className={[cssClasses.RootDiv].join(' ')} onMouseEnter={() => setIsActive(true)} onMouseLeave={() => setIsActive(false)}>
                     <RenderOnCondition condition={props.mode !== counterModes.summary}>
                         <button className={[cssClasses.Button, cssClasses.MinusButton, hideIfInactive(), highlightIfSolved()].join(" ")} onClick={() => props.updateCount(props.data.date, props.data.topicId, props.data.solveCount - 1)}>
                             <FAIcon iconClasses={["fas fa-minus"]} />
@@ -83,14 +89,14 @@ const Counter = (props) => {
                         <button className={[cssClasses.Button, cssClasses.PlusButton, hideIfInactive(), highlightIfSolved()].join(" ")} onClick={() => props.updateCount(props.data.date, props.data.topicId, props.data.solveCount + 1)}>
                             <FAIcon iconClasses={["fas fa-plus"]} />
                         </button>
-                        <div className={[cssClasses.TopicCount, highlightIfSolved()].join(' ')} onClick={launchCounterEditor}>
+                        <div className={[cssClasses.TopicCount, highlightIfSolved(), highlightDifficulty()].join(' ')} onClick={launchCounterEditor}>
                             <div className={cssClasses.Count}>{props.data.solveCount}</div>
                             <hr className={[cssClasses.Divider, highlightIfSolved()].join(' ')} />
                             <div className={cssClasses.TopicName}>{props.data.topicName}</div>
                         </div>
                     </RenderOnCondition>
                     <RenderOnCondition condition={props.mode === counterModes.summary}>
-                        <div className={[cssClasses.TopicCount, highlightIfSolved()].join(' ')}>
+                        <div className={[cssClasses.TopicCount, highlightIfSolved(), highlightDifficulty()].join(' ')}>
                             <div className={cssClasses.Count}>{props.data.solveCount}</div>
                             <hr className={[cssClasses.Divider, highlightIfSolved()].join(' ')} />
                             <div className={cssClasses.TopicName}>{props.data.topicName}</div>

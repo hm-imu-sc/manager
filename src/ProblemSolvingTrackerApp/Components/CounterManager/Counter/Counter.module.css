@@ -96,3 +96,28 @@
 .Hidden {
     display: none;
 }
+
+.EasyDifficulty {
+    border-color: hsl(180 74% 42%);
+}
+
+.MediumDifficulty {
+    border-color: hsl(43 100% 50%);
+}
+
+.HardDifficulty {
+    border-color: hsl(0 91% 59%);
+}
+
+.TopicCount.Solved.EasyDifficulty {
+    border-color: hsl(180 74% 42%);
+}
+
+.TopicCount.Solved.MediumDifficulty {
+    border-color: hsl(43 100% 50%);
+}
+
+.TopicCount.Solved.HardDifficulty {
+    border-color: hsl(0 91% 59%);
+}
+

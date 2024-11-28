@@ -13,6 +13,7 @@ import RenderOnCondition from "../../../CommonComponents/RenderOnCondition/Rende
 import AlertListContext from "../../../Context/AlertListContext";
 import TabBar from "../../../CommonComponents/TabBar/TabBar";
 import RadioGroup from "../../../CommonComponents/RadioGroup/RadioGroup";
+import ToggleSwitch from "../../../CommonComponents/ToggleSwitch/ToggleSwitch";
 
 export const counterModes = Object.freeze({
     topicCounter: 1,
@@ -23,7 +24,8 @@ export const counterModes = Object.freeze({
 
 const sortByOptions = Object.freeze({
     topicName: 1,
-    solveCount: 2
+    solveCount: 2,
+    difficulty: 3
 });
 
 const orderByOptions = Object.freeze({
@@ -47,9 +49,9 @@ const CounterManager = () => {
     const [viewMode, setViewMode] = useState(counterViewMode.showAll);
     const [currentDate, setCurrentDate] = useState(Datetime.today);
     const [topicCounterDate, setTopicCounterDate] = useState(Datetime.today);
-    const [refreshCounter, setRefreshCounter] = useState(1);
-    const [countList, setCountList] = useState([]);
-    const [countComponents, setCountComponents] = useState([]);
+    const [_, refreshAllCounters] = useState(1);
+    const [topicCounterList, setTopicCounterList] = useState([]);
+    const [topicCounterComponents, setTopicCounterComponents] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalState, setModalState] = useState({modalProps: modalProps, modalContent: null});
     const [searchKeyword, setSearchKeyword] = useState('');
@@ -57,12 +59,13 @@ const CounterManager = () => {
     const [orderBy, setOrderBy] = useState(orderByOptions.asc);
     const [solveCountFilterMode, setSolveCountFilterMode] = useState(solveCountFilterModeOptions.greaterThanOrEqualTo);
     const [solveCountCriteria, setSolveCountCriteria] = useState('');
+    const [showDifficulty, setShowDifficulty] = useState(false);
 
     const alert = useContext(AlertListContext);
 
     const refresh = () => {
         alert.pushAlert('All counters has been reloaded.', 2000);
-        setRefreshCounter(r => r + 1);
+        refreshAllCounters(r => r + 1);
     }
 
     const updateCurrentDate = date => {
@@ -82,7 +85,7 @@ const CounterManager = () => {
     }
     
     const updateCount = (date, topicId, solveCount) => {
-        setCountList(countList.map(count => {
+        setTopicCounterList(topicCounterList.map(count => {
             if (count.date === date && count.topicId === topicId) {
                 const modifiedCount = {...count};
                 modifiedCount.solveCount = (solveCount < 0 ? 0 : solveCount);
@@ -93,7 +96,7 @@ const CounterManager = () => {
     }
 
     const saveChanges = async () => {
-        const response = await fetchAPI(CountService.updateCounts, apiMethodTypes.PUT, {counts: countList})
+        const response = await fetchAPI(CountService.updateCounts, apiMethodTypes.PUT, {counts: topicCounterList})
         if (response.generalResponse.isSuccess) {
             alert.pushAlert('All changes are save successfully.', 3000);
             refresh();
@@ -185,7 +188,7 @@ const CounterManager = () => {
         const action = async () => {
             const response = await fetchAPI(`${CountService.getAllCounts}/${currentDate.date}`, apiMethodTypes.GET);
             if (response.generalResponse.isSuccess) {
-                setCountList(response.counts);
+                setTopicCounterList(response.counts);
             }
             else {
                 launchModal(modalModes.mini, "Failed !!!", (
@@ -198,15 +201,18 @@ const CounterManager = () => {
             }
         }
         action();
-    }, [refreshCounter, currentDate]);
+    }, [_, currentDate]);
 
     useEffect(() => {
-        setCountComponents(countList.sort((c1, c2) => {
+        setTopicCounterComponents(topicCounterList.sort((c1, c2) => {
             if (sortBy === sortByOptions.topicName) {
                 return (orderBy === orderByOptions.asc) ? c1.topicName.localeCompare(c2.topicName) : c2.topicName.localeCompare(c1.topicName);
             }
-            else {
+            else if (sortBy === sortByOptions.solveCount) {
                 return (orderBy === orderByOptions.asc) ? ((c2.solveCount <= c1.solveCount) ? 1 : -1) : ((c1.solveCount <= c2.solveCount) ? 1 : -1);
+            }
+            else if (sortBy === sortByOptions.difficulty) {
+                return (orderBy === orderByOptions.asc) ? ((c2.difficulty <= c1.difficulty) ? 1 : -1) : ((c1.difficulty <= c2.difficulty) ? 1 : -1);
             }
         }).map(count => {
             const passBySearchKeyword = isNullOrEmpty(searchKeyword) || count.topicName.toLocaleLowerCase().includes(searchKeyword.toLocaleLowerCase());
@@ -235,12 +241,13 @@ const CounterManager = () => {
                         mode={mode}
                         viewMode={viewMode}
                         data={count}
-                        updateCount={updateCount} />
+                        updateCount={updateCount}
+                        showDifficulty={showDifficulty} />
                 )
             }
             return null;
         }));
-    }, [countList, mode, viewMode, searchKeyword, sortBy, orderBy, solveCountFilterMode, solveCountCriteria]);
+    }, [topicCounterList, mode, viewMode, searchKeyword, sortBy, orderBy, solveCountFilterMode, solveCountCriteria, showDifficulty]);
 
     return (
         <Fragment>
@@ -260,7 +267,7 @@ const CounterManager = () => {
                     <div className={[cssClasses.Date, cssClasses.TitleOnly].join(' ')}>
                         <RenderOnCondition condition={mode === counterModes.summary} children={"Topic Counter Summary"} />
                         <RenderOnCondition condition={mode === counterModes.adjustment} children={"Counter Adjustments"} />
-                        <RenderOnCondition condition={mode === counterModes.ojCounter} children={`Total Solved: ${countList.reduce((sum, count) => sum += count.solveCount, 0)}`} />
+                        <RenderOnCondition condition={mode === counterModes.ojCounter} children={`Total Solved: ${topicCounterList.reduce((sum, count) => sum += count.solveCount, 0)}`} />
                     </div>
                 </div>
 
@@ -271,7 +278,7 @@ const CounterManager = () => {
                             <input className={cssClasses.SearchKeyword} id="searchKeyword" type="text" maxLength={24} onChange={e => setSearchKeyword(e.target.value)} />
                         </div>
 
-                        <div className={[cssClasses.FilterGroup]}>
+                        <div className={[cssClasses.FilterGroup]}>  
                             <RadioGroup title="Sort by" name="sortBy" options={[
                                 {
                                     label: 'Topic Name',
@@ -280,6 +287,10 @@ const CounterManager = () => {
                                 {
                                     label: 'Solve Count',
                                     value: sortByOptions.solveCount
+                                },
+                                {
+                                    label: 'Difficulty',
+                                    value: sortByOptions.difficulty
                                 }
                             ]} onChange={setSortBy} checkedOption={sortBy}/>
 
@@ -292,8 +303,10 @@ const CounterManager = () => {
                                     label: 'Descending',
                                     value: orderByOptions.desc
                                 }
-                            ]} onChange={setOrderBy} checkedOption={orderBy}/>     
-                                                   
+                            ]} onChange={setOrderBy} checkedOption={orderBy}/>   
+                                                        
+                            <ToggleSwitch state={showDifficulty} text={'Show Difficulty'} onClick={() => setShowDifficulty(state => !state)} /> 
+                            
                             <div className={cssClasses.SolveCountFilter}>
                                 <label htmlFor="solveCountCriteria"><FAIcon iconClasses={["fas fa-hashtag"]} /></label>
                                 <button className={cssClasses.CompareButton} onClick={() => setSolveCountFilterMode(s => ((s + 1) % 6) + ((s === solveCountFilterModeOptions.greaterThan) ? 1 : 0))}>
@@ -304,7 +317,7 @@ const CounterManager = () => {
                         </div>
 
                         <div className={[cssClasses.Panel, cssClasses.CounterList].join(' ')}>
-                            {countComponents}
+                            {topicCounterComponents}
                         </div>
                     </TabBar>
                 </div>
